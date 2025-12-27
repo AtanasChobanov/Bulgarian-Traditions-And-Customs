@@ -11,5 +11,6 @@ namespace BulgarianTraditionsAndCustoms.Data
         }
 
         public DbSet<Region> Regions { get; set; }
+        public DbSet<TraditionType> TraditionTypes { get; set; }
     }
 }
