@@ -4,6 +4,7 @@ using BulgarianTraditionsAndCustoms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulgarianTraditionsAndCustoms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251229134144_CreateTradtionsParticipantsTable")]
+    partial class CreateTradtionsParticipantsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +24,6 @@ namespace BulgarianTraditionsAndCustoms.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BulgarianTraditionsAndCustoms.Models.Holiday", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CelebrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Holidays");
-                });
 
             modelBuilder.Entity("BulgarianTraditionsAndCustoms.Models.Participant", b =>
                 {
@@ -180,21 +157,6 @@ namespace BulgarianTraditionsAndCustoms.Migrations
                     b.ToTable("TraditionTypes");
                 });
 
-            modelBuilder.Entity("HolidayTradition", b =>
-                {
-                    b.Property<int>("HolidaysId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TraditionsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HolidaysId", "TraditionsId");
-
-                    b.HasIndex("TraditionsId");
-
-                    b.ToTable("HolidayTradition");
-                });
-
             modelBuilder.Entity("BulgarianTraditionsAndCustoms.Models.Tradition", b =>
                 {
                     b.HasOne("BulgarianTraditionsAndCustoms.Models.Region", "Region")
@@ -231,21 +193,6 @@ namespace BulgarianTraditionsAndCustoms.Migrations
                     b.Navigation("Participant");
 
                     b.Navigation("Tradition");
-                });
-
-            modelBuilder.Entity("HolidayTradition", b =>
-                {
-                    b.HasOne("BulgarianTraditionsAndCustoms.Models.Holiday", null)
-                        .WithMany()
-                        .HasForeignKey("HolidaysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BulgarianTraditionsAndCustoms.Models.Tradition", null)
-                        .WithMany()
-                        .HasForeignKey("TraditionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BulgarianTraditionsAndCustoms.Models.Participant", b =>

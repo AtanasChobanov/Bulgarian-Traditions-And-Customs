@@ -10,5 +10,7 @@ namespace BulgarianTraditionsAndCustoms.Models
         public string Name { get; set; }
         [MaxLength(2000)]
         public string? Description { get; set; }
+        // Navigation Properties
+        public ICollection<Tradition>? Traditions { get; set; }
     }
 }
