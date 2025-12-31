@@ -1,0 +1,77 @@
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.TraditionFormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Tradition</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Tradition.Name" class="control-label"></label>
+                <input asp-for="Tradition.Name" class="form-control" />
+                <span asp-validation-for="Tradition.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tradition.Description" class="control-label"></label>
+                <input asp-for="Tradition.Description" class="form-control" />
+                <span asp-validation-for="Tradition.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tradition.CelebrationDate" class="control-label"></label>
+                <input asp-for="Tradition.CelebrationDate" class="form-control" />
+                <span asp-validation-for="Tradition.CelebrationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tradition.RegionId" class="control-label"></label>
+                <select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-control"></select>
+                <span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tradition.TraditionTypeId" class="control-label"></label>
+                <select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-control"></select>
+                <span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Празници</label>
+                <select asp-for="SelectedHolidayIds"
+                        asp-items="Model.Holidays"
+                        class="form-control"
+                        multiple>
+                </select>
+                <span asp-validation-for="SelectedHolidayIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Участници</label>
+                <select asp-for="SelectedParticipantIds"
+                        asp-items="Model.Participants"
+                        class="form-control"
+                        multiple>
+                </select>
+                <span asp-validation-for="SelectedParticipantIds" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
