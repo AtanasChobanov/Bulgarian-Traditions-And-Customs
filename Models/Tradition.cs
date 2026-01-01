@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BulgarianTraditionsAndCustoms.Models
 {
@@ -21,9 +22,13 @@ namespace BulgarianTraditionsAndCustoms.Models
         [Required]
         public int TraditionTypeId { get; set; }
         // Navigation Properties
+        [ValidateNever]
         public Region Region { get; set; }
+        [ValidateNever]
         public TraditionType TraditionType { get; set; }
+        [ValidateNever]
         public ICollection<Holiday> Holidays { get; set; }
+        [ValidateNever]
         public ICollection<TraditionParticipant> TraditionParticipants { get; set; }
     }
 }

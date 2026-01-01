@@ -61,12 +61,15 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 }
 
                 // Set up related Holidays
+                viewModel.Tradition.Holidays = new List<Holiday>();
                 foreach (var holidayId in viewModel.SelectedHolidayIds)
                 {
-                    viewModel.Tradition.Holidays.Add(new Holiday { Id = holidayId });
+                    var holiday = _context.Holidays.Find(holidayId);
+                    viewModel.Tradition.Holidays.Add(holiday);
                 }
 
                 // Set up related Participants
+                viewModel.Tradition.TraditionParticipants = new List<TraditionParticipant>();
                 foreach (var participantId in viewModel.SelectedParticipantIds)
                 {
                     viewModel.Tradition.TraditionParticipants.Add(new TraditionParticipant { ParticipantId = participantId });
