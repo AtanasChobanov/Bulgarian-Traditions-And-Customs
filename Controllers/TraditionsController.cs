@@ -84,6 +84,46 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Delete(int id)
+        {
+            var tradition = _context.Traditions.Include(t => t.TraditionType).Include(t => t.Region).FirstOrDefault(t => t.Id == id);
+            if (tradition == null)
+            {
+                return NotFound();
+            }
+
+            return View(tradition);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var tradition = _context.Traditions.Find(id);
+            if (tradition != null)
+            {
+                // Check if there is image path to delete
+                if (!string.IsNullOrEmpty(tradition.ImagePath))
+                {
+                    // Find absolute path to file
+                    string imagePath = Path.Combine(_hostEnvironment.WebRootPath, tradition.ImagePath.TrimStart('/'));
+
+                    // Delete the file if it exists on the server
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+                _context.Traditions.Remove(tradition);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         private void PopulateCreateFormDropDowns(TraditionFormViewModel viewModel)
         {
             PopulateDropDowns(viewModel);
