@@ -1,0 +1,63 @@
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.TraditionFormViewModel;
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="form-group">
+    <label asp-for="Tradition.Name" class="control-label"></label>
+    <input asp-for="Tradition.Name" class="form-control" />
+    <span asp-validation-for="Tradition.Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Tradition.Description" class="control-label"></label>
+    <input asp-for="Tradition.Description" class="form-control" />
+    <span asp-validation-for="Tradition.Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Tradition.CelebrationDate" class="control-label"></label>
+    <input asp-for="Tradition.CelebrationDate" class="form-control" />
+    <span asp-validation-for="Tradition.CelebrationDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label class="control-label">Снимка на традицията</label>
+
+    @* 1. Проверяваме дали моделът има съществуващ път до снимка *@
+    @if (!String.IsNullOrEmpty(Model.Tradition.ImagePath))
+    {
+        <div class="mb-2">
+            <img src="@Model.Tradition.ImagePath" alt="Текуща снимка" style="width: 250px; height: auto;" class="img-thumbnail" />
+        </div>
+
+        @* --- НАЧАЛО НА КОДА ЗА ЧЕКБОКС --- *@
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="RemoveImage" id="removeImageCheckbox" />
+                @Html.DisplayNameFor(model => model.RemoveImage)
+            </label>
+        </div>
+        @* --- КРАЙ НА КОДА ЗА ЧЕКБОКС --- *@
+    }
+
+    @* 2. Полето за качване на НОВА снимка *@
+    <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/png, image/jpeg, image/webp" />
+    <span asp-validation-for="ImageFile" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Tradition.RegionId" class="control-label"></label>
+    <select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-control"></select>
+    <span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Tradition.TraditionTypeId" class="control-label"></label>
+    <select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-control"></select>
+    <span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label>Празници</label>
+    <select asp-for="SelectedHolidayIds" asp-items="Model.Holidays" class="form-control" multiple></select>
+    <span asp-validation-for="SelectedHolidayIds" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label>Участници</label>
+    <select asp-for="SelectedParticipantIds" asp-items="Model.Participants" class="form-control" multiple></select>
+    <span asp-validation-for="SelectedParticipantIds" class="text-danger"></span>
+</div>
