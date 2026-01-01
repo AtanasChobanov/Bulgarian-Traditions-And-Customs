@@ -84,9 +84,30 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Details(int id)
+        {
+            var tradition = _context.Traditions
+                                  .Include(t =>t.TraditionType)
+                                  .Include(t => t.Region)
+                                  .Include(t => t.Holidays)
+                                  .Include(t => t.TraditionParticipants)
+                                  .ThenInclude(t => t.Participant)
+                                  .FirstOrDefault(t => t.Id == id);
+
+            if (tradition == null)
+            {
+                return NotFound();
+            }
+
+            return View(tradition);
+        }
+
         public IActionResult Delete(int id)
         {
-            var tradition = _context.Traditions.Include(t => t.TraditionType).Include(t => t.Region).FirstOrDefault(t => t.Id == id);
+            var tradition = _context.Traditions
+                                  .Include(t => t.TraditionType)
+                                  .Include(t => t.Region)
+                                  .FirstOrDefault(t => t.Id == id);
             if (tradition == null)
             {
                 return NotFound();
