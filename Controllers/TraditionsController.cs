@@ -31,7 +31,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
         public IActionResult Create()
         {
             var viewModel = new TraditionFormViewModel();
-            PopulateCreateFormDropDowns(viewModel);
+            PopulateDropDowns(viewModel);
             return View(viewModel);
         }
 
@@ -80,7 +80,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            PopulateCreateFormDropDowns(viewModel);
+            PopulateDropDowns(viewModel);
             return View(viewModel);
         }
 
@@ -243,9 +243,9 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", new { id });
+                return RedirectToAction(nameof(Details), new { id });
             }
-            PopulateCreateFormDropDowns(viewModel);
+            PopulateDropDowns(viewModel);
             return View(viewModel);
         }
 
@@ -284,7 +284,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 }
                 _context.Traditions.Remove(tradition);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             else
             {
@@ -292,17 +292,12 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             }
         }
 
-        private void PopulateCreateFormDropDowns(TraditionFormViewModel viewModel)
-        {
-            PopulateDropDowns(viewModel);
-            viewModel.Holidays = new MultiSelectList(_context.Holidays, "Id", "Name");
-            viewModel.Participants = new MultiSelectList(_context.Participants, "Id", "Name");
-        }
-
         private void PopulateDropDowns(TraditionFormViewModel viewModel)
         {
-            viewModel.Regions = new SelectList(_context.Regions, "Id", "Name");
-            viewModel.TraditionTypes = new SelectList(_context.TraditionTypes, "Id", "Name");
+            viewModel.Regions = new SelectList(_context.Regions, "Id", "Name", viewModel.Tradition.RegionId);
+            viewModel.TraditionTypes = new SelectList(_context.TraditionTypes, "Id", "Name", viewModel.Tradition.TraditionTypeId);
+            viewModel.Holidays = new MultiSelectList(_context.Holidays, "Id", "Name", viewModel.SelectedHolidayIds);
+            viewModel.Participants = new MultiSelectList(_context.Participants, "Id", "Name", viewModel.SelectedParticipantIds);
         }
     }
 }

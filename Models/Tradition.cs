@@ -21,13 +21,9 @@ namespace BulgarianTraditionsAndCustoms.Models
         [Required]
         public int TraditionTypeId { get; set; }
         // Navigation Properties
-        [ValidateNever]
-        public Region Region { get; set; }
-        [ValidateNever]
-        public TraditionType TraditionType { get; set; }
-        [ValidateNever]
-        public ICollection<Holiday> Holidays { get; set; }
-        [ValidateNever]
-        public ICollection<TraditionParticipant> TraditionParticipants { get; set; }
+        public Region? Region { get; set; }
+        public TraditionType? TraditionType { get; set; }
+        public ICollection<Holiday>? Holidays { get; set; }
+        public ICollection<TraditionParticipant>? TraditionParticipants { get; set; }
     }
 }

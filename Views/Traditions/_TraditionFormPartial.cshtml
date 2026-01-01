@@ -42,12 +42,12 @@
     <span asp-validation-for="ImageFile" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Tradition.RegionId" class="control-label"></label>
+    <label asp-for="Tradition.RegionId" class="control-label">Регион</label>
     <select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-control"></select>
     <span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Tradition.TraditionTypeId" class="control-label"></label>
+    <label asp-for="Tradition.TraditionTypeId" class="control-label">Тип традиция</label>
     <select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-control"></select>
     <span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
 </div>
