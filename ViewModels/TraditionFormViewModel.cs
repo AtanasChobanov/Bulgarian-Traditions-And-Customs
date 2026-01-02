@@ -1,5 +1,5 @@
 ﻿using BulgarianTraditionsAndCustoms.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using BulgarianTraditionsAndCustoms.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulgarianTraditionsAndCustoms.ViewModels
@@ -7,6 +7,7 @@ namespace BulgarianTraditionsAndCustoms.ViewModels
     public class TraditionFormViewModel
     {
         public Tradition Tradition { get; set; } = new Tradition();
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".webp" })]
         public IFormFile? ImageFile { get; set; }
         public bool RemoveImage { get; set; }
         public IEnumerable<SelectListItem>? Regions { get; set; }
