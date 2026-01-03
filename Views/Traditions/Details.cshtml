@@ -1,101 +1,136 @@
 ﻿@model BulgarianTraditionsAndCustoms.Models.Tradition
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container">
+	<div class="row">
+		<section id="post" class="col-9">
+			<!-- Heading -->
+			<h1 class="mb-3 fw-bold">
+				@Model.Name
+			</h1>
 
-<div>
-    <h4>Tradition</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CelebrationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CelebrationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TraditionType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TraditionType.Name)
-        </dd>
-    </dl>
+			<!-- Metadata -->
+			<ul class="d-flex flex-wrap align-items-center gap-4 text-muted mb-3 ps-1 metadata-list">
+				<li>
+					@Model.CelebrationDate.ToString("dd MMMM")
+				</li>
+				<li>
+					<span class="badge bg-primary text-white">
+						@Model.TraditionType.Name
+					</span>
+				</li>
+				<li>
+					<i class="bi bi-geo-alt-fill"></i>
+					@Model.Region.Name
+				</li>
+			</ul>
+			<hr />
 
-    <h4>Празници</h4>
+			<!-- Image -->
+			@if (Model.ImagePath != null)
+			{
+				<div class="mb-4">
+					<img src="@Model.ImagePath"
+						 alt="@Model.Name"
+						 class="img-fluid w-100 rounded"
+						 style="max-height: 60vh; object-fit: cover;">
+				</div>
+			}
 
-    @if (Model.Holidays.Any())
-    {
-        <ul>
-            @foreach (var holiday in Model.Holidays)
-            {
-                <li>@holiday.Name</li>
-                <li>@holiday.Description</li>
-                <li>@holiday.CelebrationDate</li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p class="text-muted">Няма свързани празници</p>
-    }
+			<!-- Description -->
+			<div class="fs-5 lh-lg">
+				@Model.Description
+			</div>
 
-    <h4>Участници</h4>
+			<br />
+			<hr />
+			<br />
 
-    @if (Model.TraditionParticipants.Any())
-    {
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Име</th>
-                    <th>Роля</th>
-                    <th>Описание</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tp in Model.TraditionParticipants)
-                {
-                    <tr>
-                        <td>@tp.Participant.Name</td>
-                        <td>@(tp.ParticipantRole ?? tp.Participant.Role ?? "—")</td>
-                        <td>@tp.Participant.Description</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p class="text-muted">Няма добавени участници</p>
-    }
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+			<h4>Празници</h4>
+
+			@if (Model.Holidays.Any())
+			{
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>Име</th>
+							<th>Описание</th>
+							<th>Дата</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var holiday in Model.Holidays)
+						{
+							<tr>
+								<td>@holiday.Name</td>
+								<td>@holiday.Description</td>
+								<td>@holiday.CelebrationDate</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else
+			{
+				<p class="text-muted">Няма свързани празници</p>
+			}
+
+			<h4>Участници</h4>
+
+			@if (Model.TraditionParticipants.Any())
+			{
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>Име</th>
+							<th>Роля</th>
+							<th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var tp in Model.TraditionParticipants)
+						{
+							<tr>
+								<td>@tp.Participant.Name</td>
+								<td>@(tp.ParticipantRole ?? tp.Participant.Role ?? "—")</td>
+								<td>@tp.Participant.Description</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else
+			{
+				<p class="text-muted">Няма добавени участници</p>
+			}
+
+			<div class="mt-4 d-flex justify-content-between align-items-center">
+
+				<!-- Back to index -->
+				<a asp-action="Index" asp-controller="Traditions" class="btn btn-outline-secondary">
+					<i class="bi bi-arrow-left"></i>
+					Към каталога
+				</a>
+
+				<!-- Action buttons -->
+				<div role="group" aria-label="Действия върху традицията">
+					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+						<i class="bi bi-pencil-square"></i>
+						Редактиране
+					</a>
+
+					<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+						<i class="bi bi-trash"></i>
+						Изтриване
+					</a>
+				</div>
+			</div>
+		</section>
+		<section id="suggestions" class="col-3">
+			<h3>Открий още</h3>
+		</section>
+	</div>
 </div>

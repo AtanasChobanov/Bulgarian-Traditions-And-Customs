@@ -48,3 +48,7 @@ section#hero {
 }
 
 /* --- HERO SECTION --- */
+
+.metadata-list li:first-child {
+    list-style: none;
+}
