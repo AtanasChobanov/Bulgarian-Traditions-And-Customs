@@ -4,220 +4,249 @@
 	ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section id="hero" class="text-center text-white position-relative shadow-lg">
 
-<section id="header">
-	<div class="d-flex justify-content-between">
-		<div>
-			<h2>Български традиции и обичаи</h2>
-		</div>
-		<div class="d-flex">
-			<div class="dropdown">
-				<span>Подреди по:</span>
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Избери
+	<!-- Overlay -->
+	<div class="hero-overlay"></div>
+
+	<!-- Content -->
+	<div class="hero-content px-4 py-5 my-5 position-relative">
+		<h1 class="display-5 fw-bold mb-4">
+			Българските традиции – живото ни наследство
+		</h1>
+
+		<div class="col-lg-6 mx-auto">
+			<p class="lead mb-5">
+				Открий богатството на българските празници, народни обичаи и традиции,
+				свързани с различни региони и периоди от годината.
+			</p>
+
+			<div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+				<a href="#header" class="btn btn-primary btn-lg px-4">
+					Разгледай каталога
+				</a>
+				<button class="btn btn-outline-light btn-lg px-4">
+					Научи повече
 				</button>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">Име възходящо</a></li>
-					<li><a class="dropdown-item" href="#">Име низходящо</a></li>
-					<li><a class="dropdown-item" href="#">Предстоящи</a></li>
-					<li><a class="dropdown-item" href="#">Регион възходящо</a></li>
-					<li><a class="dropdown-item" href="#">Регион низходящо</a></li>
-				</ul>
-			</div>
-			<div class="dropdown">
-				<span>Покажи:</span>
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					5
-				</button>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">5</a></li>
-					<li><a class="dropdown-item" href="#">10</a></li>
-					<li><a class="dropdown-item" href="#">15</a></li>
-				</ul>
 			</div>
 		</div>
 	</div>
 </section>
 
-<div class="row">
-	<section id="main" class="col-8">
-		@foreach (var item in Model)
-		{
-			<div class="card mb-3">
-				@if (item.ImagePath != null)
-				{
-					<img src="@item.ImagePath" class="card-img-top" alt="Снимка на @item.Name">
-				}
-				<div class="card-body container">
-					<div class="row">
-						<div class="col">
-							<h5 class="card-title">@item.Name</h5>
-							<p class="card-text"><small class="text-body-secondary">@item.CelebrationDate</small></p>
-						</div>
-						<div class="col d-flex justify-content-end align-items-start">
-							<p class="card-text mb-0 text-end">
-								<span class="badge bg-primary text-white">
-									@item.TraditionType.Name
-								</span>
-
-								<span class="ms-2">
-									<i class="bi bi-geo-alt-fill"></i>
-									@item.Region.Name
-								</span>
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<p class="card-text">@item.Description</p>
-					</div>
+<div class="container">
+	<section id="header">
+		<div class="d-flex justify-content-between">
+			<div>
+				<h2>Български традиции и обичаи</h2>
+			</div>
+			<div class="d-flex">
+				<div class="dropdown">
+					<span>Подреди по:</span>
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Избери
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Име възходящо</a></li>
+						<li><a class="dropdown-item" href="#">Име низходящо</a></li>
+						<li><a class="dropdown-item" href="#">Предстоящи</a></li>
+						<li><a class="dropdown-item" href="#">Регион възходящо</a></li>
+						<li><a class="dropdown-item" href="#">Регион низходящо</a></li>
+					</ul>
 				</div>
-				<div class="card-footer">
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактиране</a>
-								<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Изтриване</a>
-							</div>
-							<div class="col text-end">
-								<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Прочети още</a>
-							</div>
-						</div>
-					</div>
+				<div class="dropdown">
+					<span>Покажи:</span>
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						5
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">5</a></li>
+						<li><a class="dropdown-item" href="#">10</a></li>
+						<li><a class="dropdown-item" href="#">15</a></li>
+					</ul>
 				</div>
 			</div>
-		}
+		</div>
 	</section>
-	<section id="filter" class="col-4 text-end">
-		<a asp-action="Create" class="btn btn-outline-primary w-100">Създай нова статия</a>
-		<div class="facets"></div>
-        <div class="card shadow-sm text-start">
-            <div class="card-body">
-                <form asp-controller="Traditions" asp-action="Index" method="get">
 
-                    <!-- Period -->
-                    <h5 class="mb-3">Период</h5>
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <input type="date" class="form-control" aria-label="Начална дата">
-                        <span>–</span>
-                        <input type="date" class="form-control" aria-label="Крайна дата">
-                    </div>
+	<div class="row">
+		<section id="main" class="col-8">
+			@foreach (var item in Model)
+			{
+				<div class="card mb-3">
+					@if (item.ImagePath != null)
+					{
+						<img src="@item.ImagePath" class="card-img-top" alt="Снимка на @item.Name">
+					}
+					<div class="card-body container">
+						<div class="row">
+							<div class="col">
+								<h5 class="card-title">@item.Name</h5>
+								<p class="card-text"><small class="text-body-secondary">@item.CelebrationDate</small></p>
+							</div>
+							<div class="col d-flex justify-content-end align-items-start">
+								<p class="card-text mb-0 text-end">
+									<span class="badge bg-primary text-white">
+										@item.TraditionType.Name
+									</span>
 
-                    <!-- Tradition Type -->
-                    <h5 class="mb-3">Тип традиция</h5>
-                    <div class="border rounded p-2 mb-4 overflow-auto"
-                         style="max-height: 150px;"
-                         data-bs-spy="scroll"
-                         data-bs-target="#traditionTypeSpy"
-                         tabindex="0">
-                        <div id="traditionTypeSpy">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type1">
-                                <label class="form-check-label" for="type1">Народен обичай</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type2">
-                                <label class="form-check-label" for="type2">Религиозна традиция</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type3">
-                                <label class="form-check-label" for="type3">Семеен обичай</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="type4">
-                                <label class="form-check-label" for="type4">Фолклорно събитие</label>
-                            </div>
-                        </div>
-                    </div>
+									<span class="ms-2">
+										<i class="bi bi-geo-alt-fill"></i>
+										@item.Region.Name
+									</span>
+								</p>
+							</div>
+						</div>
+						<div class="row">
+							<p class="card-text">@item.Description</p>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактиране</a>
+									<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Изтриване</a>
+								</div>
+								<div class="col text-end">
+									<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Прочети още</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+		<section id="filter" class="col-4 text-end">
+			<a asp-action="Create" class="btn btn-outline-primary w-100">Създай нова статия</a>
+			<div class="facets"></div>
+			<div class="card shadow-sm text-start">
+				<div class="card-body">
+					<form asp-controller="Traditions" asp-action="Index" method="get">
 
-                    <!-- Region -->
-                    <h5 class="mb-3">Регион</h5>
-                    <div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="region1">
-                            <label class="form-check-label" for="region1">Северна България</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="region2">
-                            <label class="form-check-label" for="region2">Южна България</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="region3">
-                            <label class="form-check-label" for="region3">Родопи</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="region4">
-                            <label class="form-check-label" for="region4">Добруджа</label>
-                        </div>
-                    </div>
+						<!-- Period -->
+						<h5 class="mb-3">Период</h5>
+						<div class="d-flex align-items-center gap-2 mb-4">
+							<input type="date" class="form-control" aria-label="Начална дата">
+							<span>–</span>
+							<input type="date" class="form-control" aria-label="Крайна дата">
+						</div>
 
-                    <!-- Holiday -->
-                    <h5 class="mb-3">Празник</h5>
-                    <div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="holiday1">
-                            <label class="form-check-label" for="holiday1">Коледа</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="holiday2">
-                            <label class="form-check-label" for="holiday2">Великден</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="holiday3">
-                            <label class="form-check-label" for="holiday3">Гергьовден</label>
-                        </div>
-                    </div>
+						<!-- Tradition Type -->
+						<h5 class="mb-3">Тип традиция</h5>
+						<div class="border rounded p-2 mb-4 overflow-auto"
+							 style="max-height: 150px;"
+							 data-bs-spy="scroll"
+							 data-bs-target="#traditionTypeSpy"
+							 tabindex="0">
+							<div id="traditionTypeSpy">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type1">
+									<label class="form-check-label" for="type1">Народен обичай</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type2">
+									<label class="form-check-label" for="type2">Религиозна традиция</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type3">
+									<label class="form-check-label" for="type3">Семеен обичай</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="type4">
+									<label class="form-check-label" for="type4">Фолклорно събитие</label>
+								</div>
+							</div>
+						</div>
 
-                    <!-- Participant -->
-                    <h5 class="mb-3">Участник</h5>
-                    <div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="participant1">
-                            <label class="form-check-label" for="participant1">Мъже</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="participant2">
-                            <label class="form-check-label" for="participant2">Жени</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="participant3">
-                            <label class="form-check-label" for="participant3">Деца</label>
-                        </div>
-                    </div>
+						<!-- Region -->
+						<h5 class="mb-3">Регион</h5>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="region1">
+								<label class="form-check-label" for="region1">Северна България</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="region2">
+								<label class="form-check-label" for="region2">Южна България</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="region3">
+								<label class="form-check-label" for="region3">Родопи</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="region4">
+								<label class="form-check-label" for="region4">Добруджа</label>
+							</div>
+						</div>
 
-                    <!-- SUBMIT -->
-                    <button type="submit" class="btn btn-primary w-100">
-                        Приложи филтри
-                    </button>
+						<!-- Holiday -->
+						<h5 class="mb-3">Празник</h5>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="holiday1">
+								<label class="form-check-label" for="holiday1">Коледа</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="holiday2">
+								<label class="form-check-label" for="holiday2">Великден</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="holiday3">
+								<label class="form-check-label" for="holiday3">Гергьовден</label>
+							</div>
+						</div>
 
-                </form>
+						<!-- Participant -->
+						<h5 class="mb-3">Участник</h5>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="participant1">
+								<label class="form-check-label" for="participant1">Мъже</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="participant2">
+								<label class="form-check-label" for="participant2">Жени</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="participant3">
+								<label class="form-check-label" for="participant3">Деца</label>
+							</div>
+						</div>
 
-            </div>
-        </div>
+						<!-- SUBMIT -->
+						<button type="submit" class="btn btn-primary w-100">
+							Приложи филтри
+						</button>
 
-	</section>
+					</form>
+
+				</div>
+			</div>
+
+		</section>
+	</div>
 </div>
