@@ -72,7 +72,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 viewModel.Tradition.TraditionParticipants = new List<TraditionParticipant>();
                 foreach (var participantId in viewModel.SelectedParticipantIds)
                 {
-                    viewModel.Tradition.TraditionParticipants.Add(new TraditionParticipant { ParticipantId = participantId });
+                    viewModel.Tradition.TraditionParticipants.Add(new TraditionParticipant { ParticipantId = participantId, ParticipantRole = viewModel.ParticipantRoles[participantId] });
                 }
 
                 // Save to DB
@@ -118,26 +118,12 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             var viewModel = new TraditionFormViewModel
             {
                 Tradition = tradition,
-                Regions = new SelectList(_context.Regions, "Id", "Name", tradition.RegionId),
-                TraditionTypes = new SelectList(_context.TraditionTypes, "Id", "Name", tradition.TraditionTypeId),
                 SelectedHolidayIds = tradition.Holidays.Select(h => h.Id).ToList(),
                 SelectedParticipantIds = tradition.TraditionParticipants.Select(tp => tp.ParticipantId).ToList(),
+                ParticipantRoles = tradition.TraditionParticipants.ToDictionary(tp => tp.ParticipantId, tp => tp.ParticipantRole ?? string.Empty)
             };
 
-            viewModel.Holidays = new MultiSelectList(
-                _context.Holidays,
-                "Id",
-                "Name",
-                viewModel.SelectedHolidayIds
-            );
-
-            viewModel.Participants = new MultiSelectList(
-                _context.Participants,
-                "Id",
-                "Name",
-                viewModel.SelectedParticipantIds
-            );
-
+            PopulateDropDowns(viewModel);
             return View(viewModel);
         }
 
@@ -180,14 +166,14 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                     }
 
                     // Update Participants records
-                    _context.TraditionsParticipants.RemoveRange(tradition.TraditionParticipants);
+                    tradition.TraditionParticipants.Clear();
 
                     foreach (var participantId in viewModel.SelectedParticipantIds)
                     {
                         tradition.TraditionParticipants.Add(new TraditionParticipant
                         {
                             ParticipantId = participantId,
-                            TraditionId = tradition.Id
+                            ParticipantRole = viewModel.ParticipantRoles[participantId]
                         });
                     }
 
@@ -296,8 +282,8 @@ namespace BulgarianTraditionsAndCustoms.Controllers
         {
             viewModel.Regions = new SelectList(_context.Regions, "Id", "Name", viewModel.Tradition.RegionId);
             viewModel.TraditionTypes = new SelectList(_context.TraditionTypes, "Id", "Name", viewModel.Tradition.TraditionTypeId);
-            viewModel.Holidays = new MultiSelectList(_context.Holidays, "Id", "Name", viewModel.SelectedHolidayIds);
-            viewModel.Participants = new MultiSelectList(_context.Participants, "Id", "Name", viewModel.SelectedParticipantIds);
+            viewModel.Holidays = _context.Holidays.ToList();
+            viewModel.Participants = _context.Participants.ToList();
         }
     }
 }

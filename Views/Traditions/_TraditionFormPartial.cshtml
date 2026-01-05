@@ -1,63 +1,181 @@
 ﻿@model BulgarianTraditionsAndCustoms.ViewModels.TraditionFormViewModel;
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<div class="form-group">
-    <label asp-for="Tradition.Name" class="control-label"></label>
-    <input asp-for="Tradition.Name" class="form-control" />
-    <span asp-validation-for="Tradition.Name" class="text-danger"></span>
+<!-- Име -->
+<div class="form-floating mb-4">
+	<input asp-for="Tradition.Name" class="form-control form-control-lg fs-4 fw-bold" placeholder="Име" />
+	<label asp-for="Tradition.Name">Име на традицията</label>
+	<span asp-validation-for="Tradition.Name" class="text-danger"></span>
 </div>
-<div class="form-group">
-    <label asp-for="Tradition.Description" class="control-label"></label>
-    <input asp-for="Tradition.Description" class="form-control" />
-    <span asp-validation-for="Tradition.Description" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Tradition.CelebrationDate" class="control-label"></label>
-    <input asp-for="Tradition.CelebrationDate" class="form-control" />
-    <span asp-validation-for="Tradition.CelebrationDate" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label class="control-label">Снимка на традицията</label>
 
-    @* 1. Проверяваме дали моделът има съществуващ път до снимка *@
-    @if (!String.IsNullOrEmpty(Model.Tradition.ImagePath))
-    {
-        <div class="mb-2">
-            <img src="@Model.Tradition.ImagePath" alt="Текуща снимка" style="width: 250px; height: auto;" class="img-thumbnail" />
-        </div>
+<!-- Метаданни -->
+<ul class="d-flex flex-wrap align-items-center gap-4 text-muted mb-4 ps-0 metadata-list">
+	<li>
+		<div class="form-floating">
+			<input asp-for="Tradition.CelebrationDate" type="date" class="form-control" placeholder="Дата" />
+			<label asp-for="Tradition.CelebrationDate">Дата</label>
+			<span asp-validation-for="Tradition.CelebrationDate" class="text-danger"></span>
+		</div>
+	</li>
 
-        @* --- НАЧАЛО НА КОДА ЗА ЧЕКБОКС --- *@
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="RemoveImage" id="removeImageCheckbox" />
-                @Html.DisplayNameFor(model => model.RemoveImage)
-            </label>
-        </div>
-        @* --- КРАЙ НА КОДА ЗА ЧЕКБОКС --- *@
-    }
+	<li>
+		<div class="form-floating">
+			<select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-select"></select>
+			<label asp-for="Tradition.TraditionTypeId">Тип традиция</label>
+			<span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
+		</div>
+	</li>
 
-    @* 2. Полето за качване на НОВА снимка *@
-    <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/png, image/jpeg, image/webp" />
-    <span asp-validation-for="ImageFile" class="text-danger"></span>
+	<li>
+		<div class="form-floating">
+			<select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-select"></select>
+			<label asp-for="Tradition.RegionId">Регион</label>
+			<span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
+		</div>
+	</li>
+</ul>
+
+<!-- Качване на снимка -->
+<div class="mb-4">
+	<div id="imageUploadBox"
+		 class="border rounded d-flex flex-column justify-content-center align-items-center text-muted position-relative"
+		 style="width:100%; height:45vh;">
+		<input asp-for="ImageFile"
+			   type="file"
+			   class="d-none"
+			   id="imageFileInput"
+			   accept="image/png, image/jpg, image/jpeg, image/webp" />
+
+		<input asp-for="RemoveImage" type="hidden" id="removeImageInput" />
+
+
+		<img src="@Model.Tradition.ImagePath"
+			 id="imagePreview"
+			 class="w-100 h-100 position-absolute top-0 start-0 @(string.IsNullOrEmpty(Model.Tradition.ImagePath) ? "d-none" : "")"
+			 style="object-fit: contain;" />
+
+		<div id="imagePlaceholder" class="d-flex flex-column text-center text-muted @(string.IsNullOrEmpty(Model.Tradition.ImagePath) ? "" : "d-none")">
+			<i class="bi bi-upload fs-1"></i>
+			<span class="mt-2">Качване на снимка</span>
+		</div>
+
+		<!-- Control bar -->
+		<div id="imageActions" class="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-flex gap-2">
+			<button type="button" id="uploadBtn" class="btn btn-light btn-sm">
+				<i class="bi bi-upload"></i> Качване
+			</button>
+			<button type="button" id="removeBtn" class="btn btn-danger btn-sm @(string.IsNullOrEmpty(Model.Tradition.ImagePath) ? "d-none" : "")">
+				<i class="bi bi-x-lg"></i> Изтриване
+			</button>
+		</div>
+	</div>
+
+	<span asp-validation-for="ImageFile" class="text-danger"></span>
+</div>
+
+<!-- Описание -->
+<div class="form-floating mb-4">
+	<textarea asp-for="Tradition.Description"
+			  class="form-control"
+			  style="height: 150px"
+			  placeholder="Описание"></textarea>
+	<label asp-for="Tradition.Description">Описание</label>
+	<span asp-validation-for="Tradition.Description" class="text-danger"></span>
+</div>
+
+<!-- Участници и Празници -->
+<div class="accordion mb-4" id="relationsAccordion">
+	<div class="accordion-item">
+		<h2 class="accordion-header">
+			<button class="accordion-button" type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#participantsAccordion">
+				Участници
+			</button>
+		</h2>
+
+		<div id="participantsAccordion" class="accordion-collapse collapse show">
+			<div class="accordion-body">
+
+				@foreach (var p in Model.Participants)
+				{
+					<div class="border rounded p-3 mb-2">
+						<div class="form-check d-flex align-items-center gap-2">
+							<input type="checkbox"
+								   class="form-check-input participant-checkbox"
+								   name="SelectedParticipantIds"
+								   value="@p.Id"
+								   checked="@(Model.SelectedParticipantIds.Contains(p.Id))" />
+
+							<strong>@p.Name</strong>
+
+							<input type="text"
+								   name="ParticipantRoles[@p.Id]"
+								   class="form-control form-control-sm ms-2 role-input @(Model.SelectedParticipantIds.Contains(p.Id) ? "" : " d-none")"
+								   placeholder="Роля"
+								   value="@(Model.SelectedParticipantIds.Contains(p.Id) ? Model.ParticipantRoles[p.Id] : "")" />
+						</div>
+
+						<div class="d-flex gap-3 mt-2">
+							@if (!string.IsNullOrEmpty(p.ImagePath))
+							{
+								<img src="@p.ImagePath" style="width:80px;" class="rounded" />
+							}
+							<div>@p.Description</div>
+						</div>
+					</div>
+				}
+
+			</div>
+		</div>
+	</div>
+
+
+	<div class="accordion-item">
+		<h2 class="accordion-header">
+			<button class="accordion-button" type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#holidaysAccordion">
+				Празници
+			</button>
+		</h2>
+
+		<div id="holidaysAccordion" class="accordion-collapse collapse show">
+			<div class="accordion-body">
+
+				@foreach (var h in Model.Holidays)
+				{
+					<div class="border rounded p-3 mb-2">
+						<div class="form-check">
+							<input type="checkbox"
+								   class="form-check-input"
+								   name="SelectedHolidayIds"
+								   value="@h.Id"
+								   checked="@(Model.SelectedHolidayIds.Contains(h.Id))" />
+							<strong>@h.Name</strong>
+						</div>
+
+						<small class="text-muted">@h.CelebrationDate.ToString("dd MMMM")</small>
+
+						<div class="d-flex gap-3 mt-2">
+							<div>@h.Description</div>
+						</div>
+					</div>
+				}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+@* <div class="form-group">
+	<label>Празници</label>
+	<select asp-for="SelectedHolidayIds" asp-items="Model.Holidays" class="form-control" multiple></select>
+	<span asp-validation-for="SelectedHolidayIds" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="Tradition.RegionId" class="control-label">Регион</label>
-    <select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-control"></select>
-    <span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Tradition.TraditionTypeId" class="control-label">Тип традиция</label>
-    <select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-control"></select>
-    <span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label>Празници</label>
-    <select asp-for="SelectedHolidayIds" asp-items="Model.Holidays" class="form-control" multiple></select>
-    <span asp-validation-for="SelectedHolidayIds" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label>Участници</label>
-    <select asp-for="SelectedParticipantIds" asp-items="Model.Participants" class="form-control" multiple></select>
-    <span asp-validation-for="SelectedParticipantIds" class="text-danger"></span>
-</div>
+	<label>Участници</label>
+	<select asp-for="SelectedParticipantIds" asp-items="Model.Participants" class="form-control" multiple></select>
+	<span asp-validation-for="SelectedParticipantIds" class="text-danger"></span>
+</div> *@

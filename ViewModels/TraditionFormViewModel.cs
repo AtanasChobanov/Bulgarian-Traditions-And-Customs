@@ -14,7 +14,8 @@ namespace BulgarianTraditionsAndCustoms.ViewModels
         public IEnumerable<SelectListItem>? TraditionTypes { get; set; }
         public List<int>? SelectedHolidayIds { get; set; } = new();
         public List<int>? SelectedParticipantIds { get; set; } = new();
-        public MultiSelectList? Holidays { get; set; }
-        public MultiSelectList? Participants { get; set; }
+        public Dictionary<int, string>? ParticipantRoles { get; set; } = new();
+        public ICollection<Holiday>? Holidays { get; set; }
+        public ICollection<Participant>? Participants { get; set; }
     }
 }

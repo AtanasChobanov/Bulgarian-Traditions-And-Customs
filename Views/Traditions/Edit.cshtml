@@ -1,66 +1,31 @@
 ﻿@model BulgarianTraditionsAndCustoms.ViewModels.TraditionFormViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
 }
+<div class="container">
+	<h1>Редактиране на традиция</h1>
+	<hr />
+	<form asp-action="Edit" enctype="multipart/form-data">
+		<input type="hidden" asp-for="Tradition.Id" />
+		<input type="hidden" asp-for="Tradition.ImagePath" />
 
-<h1>Edit</h1>
+		<partial name="_TraditionFormPartial" />
 
-<h4>Tradition</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <input type="hidden" asp-for="Tradition.Id" />
-            <input type="hidden" asp-for="Tradition.ImagePath" />
+		<div class="form-group">
+			<input type="submit" value="Save" class="btn btn-primary" />
+		</div>
+	</form>
 
-            <partial name="_TraditionFormPartial" />
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+	<div>
+		<a asp-action="Index">Back to List</a>
+	</div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        // Изчакваме целият HTML документ да се зареди
-        $(document).ready(function () {
-
-            // Намираме нашите два елемента по техните ID-та
-            const removeCheckbox = $('#removeImageCheckbox');
-            const fileInput = $('#imageFileInput');
-
-            // Създаваме функция, която ще управлява състоянието на полето за качване
-            function toggleFileInput() {
-                // Проверяваме дали чекбоксът е маркиран
-                if (removeCheckbox.is(':checked')) {
-                    // Ако е маркиран:
-                    // 1. Деактивираме полето за качване
-                    fileInput.prop('disabled', true);
-                    // 2. (По желание) Изчистваме стойността му, ако потребителят е избрал файл преди това
-                    fileInput.val('');
-                } else {
-                    // Ако не е маркиран, активираме полето
-                    fileInput.prop('disabled', false);
-                }
-            }
-
-            // Когато потребителят кликне на чекбокса, извикваме нашата функция
-            removeCheckbox.on('change', function() {
-                toggleFileInput();
-            });
-
-            // Извикваме функцията и при първоначалното зареждане на страницата,
-            // за всеки случай, ако браузърът е запомнил състоянието на чекбокса
-            toggleFileInput();
-        });
-    </script>
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script src="~/js/tradition-image-upload.js"></script>
+	<script src="~/js/tradition-participants-checkbox.js"></script>
 }

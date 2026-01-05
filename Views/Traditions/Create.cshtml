@@ -1,27 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container">
+	<h1>Създаване на нова традиция</h1>
+	<hr />
+	<form asp-action="Create" enctype="multipart/form-data">
+		<partial name="_TraditionFormPartial" />
 
-<h4>Tradition</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <partial name="_TraditionFormPartial" />
+		<div class="form-group">
+			<input type="submit" value="Create" class="btn btn-primary" />
+		</div>
+	</form>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+	<div>
+		<a asp-action="Index">Back to List</a>
+	</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script src="~/js/tradition-image-upload.js"></script>
+	<script src="~/js/tradition-participants-checkbox.js"></script>
 }
