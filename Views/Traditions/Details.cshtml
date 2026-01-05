@@ -122,12 +122,13 @@
 						Редактиране
 					</a>
 
-					<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
 						<i class="bi bi-trash"></i>
 						Изтриване
-					</a>
+					</button>
 				</div>
 			</div>
+			<partial name="_TraditionDeleteModal" model="Model" />
 		</section>
 		<section id="suggestions" class="col-3">
 			<h3>Открий още</h3>

@@ -235,20 +235,6 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Delete(int id)
-        {
-            var tradition = _context.Traditions
-                .Include(t => t.TraditionType)
-                .Include(t => t.Region)
-                .FirstOrDefault(t => t.Id == id);
-            if (tradition == null)
-            {
-                return NotFound();
-            }
-
-            return View(tradition);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

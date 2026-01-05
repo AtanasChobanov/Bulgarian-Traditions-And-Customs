@@ -12,10 +12,10 @@ namespace BulgarianTraditionsAndCustoms.ViewModels
         public bool RemoveImage { get; set; }
         public IEnumerable<SelectListItem>? Regions { get; set; }
         public IEnumerable<SelectListItem>? TraditionTypes { get; set; }
+        public ICollection<Holiday>? Holidays { get; set; }
+        public ICollection<Participant>? Participants { get; set; }
         public List<int>? SelectedHolidayIds { get; set; } = new();
         public List<int>? SelectedParticipantIds { get; set; } = new();
         public Dictionary<int, string>? ParticipantRoles { get; set; } = new();
-        public ICollection<Holiday>? Holidays { get; set; }
-        public ICollection<Participant>? Participants { get; set; }
     }
 }
