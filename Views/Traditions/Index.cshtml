@@ -103,10 +103,13 @@
 					<div class="card-footer">
 						<div class="container">
 							<div class="row">
-								<div class="col">
-									<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактиране</a>
-									<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">Изтриване</button>
-								</div>
+								@if (User.IsInRole("Admin"))
+								{
+									<div class="col">
+										<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактиране</a>
+										<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">Изтриване</button>
+									</div>
+								}
 								<div class="col text-end">
 									<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Прочети още</a>
 								</div>
@@ -114,11 +117,17 @@
 						</div>
 					</div>
 				</div>
-				<partial name="_TraditionDeleteModal" model="item" />
+				@if (User.IsInRole("Admin"))
+				{
+					<partial name="_TraditionDeleteModal" model="item" />
+				}
 			}
 		</section>
 		<section id="filter" class="col-4 text-end">
-			<a asp-action="Create" class="btn btn-outline-primary w-100">Създай нова статия</a>
+			@if (User.IsInRole("Admin"))
+			{
+				<a asp-action="Create" class="btn btn-outline-primary w-100">Създай нова статия</a>
+			}
 			<div class="facets"></div>
 			<div class="card shadow-sm text-start">
 				<div class="card-body">

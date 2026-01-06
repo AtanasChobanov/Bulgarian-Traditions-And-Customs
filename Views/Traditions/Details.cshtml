@@ -115,20 +115,26 @@
 					Към каталога
 				</a>
 
-				<!-- Action buttons -->
-				<div role="group" aria-label="Действия върху традицията">
-					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
-						<i class="bi bi-pencil-square"></i>
-						Редактиране
-					</a>
+				@if (User.IsInRole("Admin"))
+				{
+					<!-- Action buttons -->
+					<div role="group" aria-label="Действия върху традицията">
+						<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+							<i class="bi bi-pencil-square"></i>
+							Редактиране
+						</a>
 
-					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
-						<i class="bi bi-trash"></i>
-						Изтриване
-					</button>
-				</div>
+						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
+							<i class="bi bi-trash"></i>
+							Изтриване
+						</button>
+					</div>
+				}
 			</div>
-			<partial name="_TraditionDeleteModal" model="Model" />
+			@if (User.IsInRole("Admin"))
+			{
+				<partial name="_TraditionDeleteModal" model="Model" />
+			}
 		</section>
 		<section id="suggestions" class="col-3">
 			<h3>Открий още</h3>

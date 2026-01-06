@@ -1,9 +1,10 @@
 ﻿using BulgarianTraditionsAndCustoms.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BulgarianTraditionsAndCustoms.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -12,6 +13,7 @@ namespace BulgarianTraditionsAndCustoms.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TraditionParticipant>()
                 .HasKey(tp => new {tp.TraditionId, tp.ParticipantId});
             modelBuilder.Entity<TraditionParticipant>()

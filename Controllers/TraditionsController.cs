@@ -1,6 +1,7 @@
 ﻿using BulgarianTraditionsAndCustoms.Data;
 using BulgarianTraditionsAndCustoms.Models;
 using BulgarianTraditionsAndCustoms.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             return View(traditionsList);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var viewModel = new TraditionFormViewModel();
@@ -37,6 +39,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(TraditionFormViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -102,6 +105,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             return View(tradition);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var tradition = await _context.Traditions
@@ -129,6 +133,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, TraditionFormViewModel viewModel)
         {
             if (id != viewModel.Tradition.Id)
@@ -237,6 +242,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             var tradition = _context.Traditions.Find(id);
