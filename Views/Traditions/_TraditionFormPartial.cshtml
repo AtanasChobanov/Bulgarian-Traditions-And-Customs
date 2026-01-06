@@ -21,17 +21,17 @@
 
 	<li>
 		<div class="form-floating">
-			<select asp-for="Tradition.TraditionTypeId" asp-items="Model.TraditionTypes" class="form-select"></select>
-			<label asp-for="Tradition.TraditionTypeId">Тип традиция</label>
-			<span asp-validation-for="Tradition.TraditionTypeId" class="text-danger"></span>
+			<select asp-for="Tradition.TraditionType" asp-items="Model.TraditionTypes" class="form-select"></select>
+			<label asp-for="Tradition.TraditionType">Тип традиция</label>
+			<span asp-validation-for="Tradition.TraditionType" class="text-danger"></span>
 		</div>
 	</li>
 
 	<li>
 		<div class="form-floating">
-			<select asp-for="Tradition.RegionId" asp-items="Model.Regions" class="form-select"></select>
-			<label asp-for="Tradition.RegionId">Регион</label>
-			<span asp-validation-for="Tradition.RegionId" class="text-danger"></span>
+			<select asp-for="Tradition.Region" asp-items="Model.Regions" class="form-select"></select>
+			<label asp-for="Tradition.Region">Регион</label>
+			<span asp-validation-for="Tradition.Region" class="text-danger"></span>
 		</div>
 	</li>
 </ul>

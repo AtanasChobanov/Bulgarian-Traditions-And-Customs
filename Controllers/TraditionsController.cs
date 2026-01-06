@@ -1,4 +1,5 @@
 ﻿using BulgarianTraditionsAndCustoms.Data;
+using BulgarianTraditionsAndCustoms.Helpers;
 using BulgarianTraditionsAndCustoms.Models;
 using BulgarianTraditionsAndCustoms.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,10 +22,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         public IActionResult Index()
         {
-            var traditionsList = _context.Traditions
-                .Include(t => t.TraditionType)
-                .Include(t => t.Region)
-                .ToList();
+            var traditionsList = _context.Traditions.ToList();
 
             return View(traditionsList);
         }
@@ -90,8 +88,6 @@ namespace BulgarianTraditionsAndCustoms.Controllers
         public IActionResult Details(int id)
         {
             var tradition = _context.Traditions
-                .Include(t =>t.TraditionType)
-                .Include(t => t.Region)
                 .Include(t => t.Holidays)
                 .Include(t => t.TraditionParticipants)
                     .ThenInclude(t => t.Participant)
@@ -122,12 +118,15 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             var viewModel = new TraditionFormViewModel
             {
                 Tradition = tradition,
+                Holidays = _context.Holidays.ToList(),
+                Participants = _context.Participants.ToList(),
                 SelectedHolidayIds = tradition.Holidays.Select(h => h.Id).ToList(),
                 SelectedParticipantIds = tradition.TraditionParticipants.Select(tp => tp.ParticipantId).ToList(),
-                ParticipantRoles = tradition.TraditionParticipants.ToDictionary(tp => tp.ParticipantId, tp => tp.ParticipantRole ?? string.Empty)
+                ParticipantRoles = tradition.TraditionParticipants.ToDictionary(tp => tp.ParticipantId, tp => tp.ParticipantRole ?? string.Empty),
+                Regions = new SelectList(EnumHelper.GetRegionSelectListItems(), "Value", "Text", tradition.Region),
+                TraditionTypes = new SelectList(EnumHelper.GetTraditionTypeSelectListItems(), "Value", "Text", tradition.TraditionType)
             };
 
-            PopulateDropDowns(viewModel);
             return View(viewModel);
         }
 
@@ -272,10 +271,10 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         private void PopulateDropDowns(TraditionFormViewModel viewModel)
         {
-            viewModel.Regions = new SelectList(_context.Regions, "Id", "Name", viewModel.Tradition.RegionId);
-            viewModel.TraditionTypes = new SelectList(_context.TraditionTypes, "Id", "Name", viewModel.Tradition.TraditionTypeId);
             viewModel.Holidays = _context.Holidays.ToList();
             viewModel.Participants = _context.Participants.ToList();
+            viewModel.Regions = EnumHelper.GetRegionSelectListItems();
+            viewModel.TraditionTypes = EnumHelper.GetTraditionTypeSelectListItems();
         }
     }
 }

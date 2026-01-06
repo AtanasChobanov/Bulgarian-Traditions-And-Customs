@@ -19,12 +19,12 @@
 				</li>
 				<li>
 					<span class="badge bg-primary text-white">
-						@Model.TraditionType.Name
+						@Html.DisplayFor(modelItem => Model.TraditionType)
 					</span>
 				</li>
 				<li>
 					<i class="bi bi-geo-alt-fill"></i>
-					@Model.Region.Name
+					@Html.DisplayFor(modelItem => Model.Region)
 				</li>
 			</ul>
 			<hr />

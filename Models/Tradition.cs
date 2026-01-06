@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BulgarianTraditionsAndCustoms.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace BulgarianTraditionsAndCustoms.Models
@@ -17,12 +18,10 @@ namespace BulgarianTraditionsAndCustoms.Models
         public DateTime CelebrationDate { get; set; }
         public string? ImagePath { get; set; }
         [Required]
-        public int RegionId { get; set; }
+        public Region Region { get; set; }
         [Required]
-        public int TraditionTypeId { get; set; }
+        public TraditionType TraditionType { get; set; }
         // Navigation Properties
-        public Region? Region { get; set; }
-        public TraditionType? TraditionType { get; set; }
         public ICollection<Holiday>? Holidays { get; set; }
         public ICollection<TraditionParticipant>? TraditionParticipants { get; set; }
     }

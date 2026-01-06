@@ -26,8 +26,6 @@ namespace BulgarianTraditionsAndCustoms.Data
                 .HasForeignKey(pi => pi.ParticipantId);
         }
 
-        public DbSet<Region> Regions { get; set; }
-        public DbSet<TraditionType> TraditionTypes { get; set; }
         public DbSet<Tradition> Traditions { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
