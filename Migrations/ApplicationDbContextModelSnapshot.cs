@@ -97,7 +97,7 @@ namespace BulgarianTraditionsAndCustoms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("BulgarianTraditionsAndCustoms.Models.Tradition", b =>
