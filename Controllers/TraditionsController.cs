@@ -1,4 +1,5 @@
 ﻿using BulgarianTraditionsAndCustoms.Data;
+using BulgarianTraditionsAndCustoms.Enums;
 using BulgarianTraditionsAndCustoms.Helpers;
 using BulgarianTraditionsAndCustoms.Models;
 using BulgarianTraditionsAndCustoms.ViewModels;
@@ -20,12 +21,98 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(TraditionFilterQuery query)
         {
-            var traditionsList = _context.Traditions.ToList();
+            // ===== 1. Данни за dropdown-ите =====
 
-            return View(traditionsList);
+            ViewBag.Regions = Enum.GetValues(typeof(Region)).Cast<Region>();
+            ViewBag.TraditionTypes = Enum.GetValues(typeof(TraditionType)).Cast<TraditionType>();
+            ViewBag.Holidays = new SelectList(_context.Holidays, "Id", "Name");
+            ViewBag.Participants = new SelectList(_context.Participants, "Id", "Name");
+
+            // ===== 2. Основна заявка =====
+
+            var traditionsQuery = _context.Traditions
+                .Include(t => t.Holidays)
+                .Include(t => t.TraditionParticipants)
+                    .ThenInclude(tp => tp.Participant)
+                .AsQueryable();
+
+            // ===== 3. Търсене =====
+
+            if (!string.IsNullOrWhiteSpace(query.SearchString))
+            {
+                traditionsQuery = traditionsQuery
+                    .Where(t => t.Name.Contains(query.SearchString));
+            }
+
+            // ===== 4. Филтри =====
+
+            if (query.TraditionTypes?.Any() == true) 
+            { 
+                traditionsQuery = traditionsQuery.Where(t => query.TraditionTypes.Contains(t.TraditionType)); 
+            }
+            if (query.Regions?.Any() == true) 
+            { 
+                traditionsQuery = traditionsQuery.Where(t => query.Regions.Contains(t.Region)); 
+            }
+            if (query.HolidayIds?.Any() == true) 
+            { 
+                traditionsQuery = traditionsQuery.Where(t => t.Holidays.Any(h => query.HolidayIds.Contains(h.Id))); 
+            }
+            if (query.ParticipantIds?.Any() == true) 
+            { 
+                traditionsQuery = traditionsQuery.Where(t => t.TraditionParticipants.Any(tp => query.ParticipantIds.Contains(tp.ParticipantId))); 
+            }
+
+            // ===== 5. Филтриране по период =====
+
+            if (query.DateFrom.HasValue && !query.DateTo.HasValue)
+            {
+                traditionsQuery = traditionsQuery
+                    .Where(t => t.CelebrationDate.Date == query.DateFrom.Value.Date);
+            }
+            else if (!query.DateFrom.HasValue && query.DateTo.HasValue)
+            {
+                traditionsQuery = traditionsQuery
+                    .Where(t => t.CelebrationDate.Date == query.DateTo.Value.Date);
+            }
+            else if (query.DateFrom.HasValue && query.DateTo.HasValue)
+            {
+                traditionsQuery = traditionsQuery
+                    .Where(t => t.CelebrationDate.Date >= query.DateFrom.Value.Date &&
+                                t.CelebrationDate.Date <= query.DateTo.Value.Date);
+            }
+
+            // ===== 6. Сортиране =====
+
+            traditionsQuery = query.SortOrder switch
+            {
+                "name_asc" => traditionsQuery.OrderBy(t => t.Name),
+                "name_desc" => traditionsQuery.OrderByDescending(t => t.Name),
+
+                "upcoming" => traditionsQuery.OrderBy(t => t.CelebrationDate),
+
+                "region_asc" => traditionsQuery.OrderBy(t => t.Region),
+                "region_desc" => traditionsQuery.OrderByDescending(t => t.Region),
+
+                _ => traditionsQuery.OrderBy(t => t.Name)
+            };
+
+            // ===== 7. Странициране =====
+
+            var paginatedTraditions = await PaginatedList<Tradition>.CreateAsync(traditionsQuery, query.PageNumber, query.PageSize);
+
+            // Create ViewModel
+            var viewModel = new TraditionIndexViewModel
+            {
+                Traditions = paginatedTraditions,
+                FilterQuery = query
+            };
+
+            return View(viewModel);
         }
+
 
         [Authorize(Roles = "Admin")]
         public IActionResult Create()

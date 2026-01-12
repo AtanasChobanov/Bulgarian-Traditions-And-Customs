@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BulgarianTraditionsAndCustoms.Models.Tradition>
+﻿@using BulgarianTraditionsAndCustoms.Enums
+@using BulgarianTraditionsAndCustoms.Helpers
+@model BulgarianTraditionsAndCustoms.ViewModels.TraditionIndexViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -39,38 +41,12 @@
 			<div>
 				<h2>Български традиции и обичаи</h2>
 			</div>
-			<div class="d-flex">
-				<div class="dropdown">
-					<span>Подреди по:</span>
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Избери
-					</button>
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">Име възходящо</a></li>
-						<li><a class="dropdown-item" href="#">Име низходящо</a></li>
-						<li><a class="dropdown-item" href="#">Предстоящи</a></li>
-						<li><a class="dropdown-item" href="#">Регион възходящо</a></li>
-						<li><a class="dropdown-item" href="#">Регион низходящо</a></li>
-					</ul>
-				</div>
-				<div class="dropdown">
-					<span>Покажи:</span>
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						5
-					</button>
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">5</a></li>
-						<li><a class="dropdown-item" href="#">10</a></li>
-						<li><a class="dropdown-item" href="#">15</a></li>
-					</ul>
-				</div>
-			</div>
 		</div>
 	</section>
 
 	<div class="row">
 		<section id="main" class="col-8">
-			@foreach (var item in Model)
+			@foreach (var item in Model.Traditions)
 			{
 				<div class="card mb-3">
 					@if (item.ImagePath != null)
@@ -128,124 +104,243 @@
 			{
 				<a asp-action="Create" class="btn btn-outline-primary w-100">Създай нова статия</a>
 			}
-			<div class="facets"></div>
+
+			<div class="d-flex">
+				<div class="dropdown">
+					<span>Подреди по:</span>
+					<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+						Избери
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-sortOrder="name_asc"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">Име ↑</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-sortOrder="name_desc"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">Име ↓</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-sortOrder="upcoming"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">Предстоящи</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-sortOrder="region_asc"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">Регион ↑</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-sortOrder="region_desc"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">Регион ↓</a>
+						</li>
+					</ul>
+				</div>
+				<div class="dropdown">
+					<span>Покажи:</span>
+					<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+						@Model.FilterQuery.PageSize
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-pageSize="5"
+							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">5</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-pageSize="10"
+							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">10</a>
+						</li>
+						<li>
+							<a class="dropdown-item"
+							   asp-action="Index"
+							   asp-route-pageSize="15"
+							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)">15</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
 			<div class="card shadow-sm text-start">
 				<div class="card-body">
-					<form asp-controller="Traditions" asp-action="Index" method="get">
+					<form asp-controller="Traditions" asp-action="Index" method="get" id="filter">
+						<div class="col-md-4 w-100">
+							<div class="input-group">
+								<input type="text"
+									   name="searchString"
+									   value="@Model.FilterQuery.SearchString"
+									   class="form-control"
+									   placeholder="Търси по име..." />
+
+								<button class="btn btn-primary" type="submit">
+									<i class="bi bi-search"></i>
+								</button>
+							</div>
+						</div>
 
 						<!-- Period -->
 						<h5 class="mb-3">Период</h5>
 						<div class="d-flex align-items-center gap-2 mb-4">
-							<input type="date" class="form-control" aria-label="Начална дата">
+							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom" class="form-control" aria-label="Начална дата">
 							<span>–</span>
-							<input type="date" class="form-control" aria-label="Крайна дата">
+							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo" class="form-control" aria-label="Крайна дата">
 						</div>
 
 						<!-- Tradition Type -->
 						<h5 class="mb-3">Тип традиция</h5>
-						<div class="border rounded p-2 mb-4 overflow-auto"
-							 style="max-height: 150px;"
-							 data-bs-spy="scroll"
-							 data-bs-target="#traditionTypeSpy"
-							 tabindex="0">
-							<div id="traditionTypeSpy">
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height:150px;">
+							@foreach (var type in ViewBag.TraditionTypes as IEnumerable<TraditionType>)
+							{
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type1">
-									<label class="form-check-label" for="type1">Народен обичай</label>
+									<input class="form-check-input"
+										   type="checkbox"
+										   data-filter="traditionTypes"
+										   value="@type"
+										   id="type_@type"
+										   @(Model.FilterQuery.TraditionTypes.Contains(type) ? "checked" : "") />
+
+									<label class="form-check-label" for="type_@type">
+										@EnumHelper.GetDisplayName(type)
+									</label>
 								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type2">
-									<label class="form-check-label" for="type2">Религиозна традиция</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type3">
-									<label class="form-check-label" for="type3">Семеен обичай</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="type4">
-									<label class="form-check-label" for="type4">Фолклорно събитие</label>
-								</div>
-							</div>
+							}
 						</div>
+
 
 						<!-- Region -->
 						<h5 class="mb-3">Регион</h5>
-						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="region1">
-								<label class="form-check-label" for="region1">Северна България</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="region2">
-								<label class="form-check-label" for="region2">Южна България</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="region3">
-								<label class="form-check-label" for="region3">Родопи</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="region4">
-								<label class="form-check-label" for="region4">Добруджа</label>
-							</div>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height:150px;">
+							@foreach (var region in ViewBag.Regions as IEnumerable<Region>)
+							{
+								<div class="form-check">
+									<input class="form-check-input"
+										   type="checkbox"
+										   data-filter="regions"
+										   value="@region"
+										   id="region_@region"
+										   @(Model.FilterQuery.Regions.Contains(region) ? "checked" : "") />
+
+									<label class="form-check-label" for="region_@region">
+										@EnumHelper.GetDisplayName(region)
+									</label>
+								</div>
+							}
 						</div>
+
 
 						<!-- Holiday -->
 						<h5 class="mb-3">Празник</h5>
-						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="holiday1">
-								<label class="form-check-label" for="holiday1">Коледа</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="holiday2">
-								<label class="form-check-label" for="holiday2">Великден</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="holiday3">
-								<label class="form-check-label" for="holiday3">Гергьовден</label>
-							</div>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height:150px;">
+							@foreach (var holiday in ViewBag.Holidays as IEnumerable<SelectListItem>)
+							{
+								<div class="form-check">
+									<input class="form-check-input"
+										   type="checkbox"
+										   data-filter="holidayIds"
+										   value="@holiday.Value"
+										   id="holiday_@holiday.Value"
+										   @(Model.FilterQuery.HolidayIds.Contains(int.Parse(holiday.Value)) ? "checked" : "") />
+
+									<label class="form-check-label" for="holiday_@holiday.Value">
+										@holiday.Text
+									</label>
+								</div>
+							}
 						</div>
+
 
 						<!-- Participant -->
 						<h5 class="mb-3">Участник</h5>
-						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height: 150px;">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="participant1">
-								<label class="form-check-label" for="participant1">Мъже</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="participant2">
-								<label class="form-check-label" for="participant2">Жени</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="participant3">
-								<label class="form-check-label" for="participant3">Деца</label>
-							</div>
+						<div class="border rounded p-2 mb-4 overflow-auto" style="max-height:150px;">
+							@foreach (var participant in ViewBag.Participants as IEnumerable<SelectListItem>)
+							{
+								<div class="form-check">
+									<input class="form-check-input"
+										   type="checkbox"
+										   data-filter="participantIds"
+										   value="@participant.Value"
+										   id="participant_@participant.Value"
+										   @(Model.FilterQuery.ParticipantIds.Contains(int.Parse(participant.Value)) ? "checked" : "") />
+
+									<label class="form-check-label" for="participant_@participant.Value">
+										@participant.Text
+									</label>
+								</div>
+							}
 						</div>
+
+						<!-- Hidden Inputs to hold CSV values -->
+						<input type="hidden" name="traditionTypes" id="traditionTypesCsv" />
+						<input type="hidden" name="regions" id="regionsCsv" />
+						<input type="hidden" name="holidayIds" id="holidayIdsCsv" />
+						<input type="hidden" name="participantIds" id="participantIdsCsv" />
 
 						<!-- SUBMIT -->
 						<button type="submit" class="btn btn-primary w-100">
@@ -260,3 +355,24 @@
 		</section>
 	</div>
 </div>
+
+@section Scripts {
+	<script>
+		document.querySelector("form#filter").addEventListener("submit", function () {
+
+			const buildCsv = (selector, targetId) => {
+				const values = Array.from(document.querySelectorAll(selector))
+					.filter(cb => cb.checked)
+					.map(cb => cb.value);
+
+				document.getElementById(targetId).value = values.join(",");
+			};
+
+			buildCsv('[data-filter="traditionTypes"]', 'traditionTypesCsv');
+			buildCsv('[data-filter="regions"]', 'regionsCsv');
+			buildCsv('[data-filter="holidayIds"]', 'holidayIdsCsv');
+			buildCsv('[data-filter="participantIds"]', 'participantIdsCsv');
+		});
+	</script>
+
+}
