@@ -88,7 +88,6 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
             traditionsQuery = query.SortOrder switch
             {
-                "name_asc" => traditionsQuery.OrderBy(t => t.Name),
                 "name_desc" => traditionsQuery.OrderByDescending(t => t.Name),
 
                 "upcoming" => traditionsQuery.OrderBy(t => t.CelebrationDate),

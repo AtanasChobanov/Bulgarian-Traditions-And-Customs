@@ -4,6 +4,10 @@
 
 @{
 	ViewData["Title"] = "Index";
+
+	// Дефинираме променливите веднъж в началото.
+	var prevDisabled = !Model.Traditions.HasPreviousPage ? "disabled" : "";
+	var nextDisabled = !Model.Traditions.HasNextPage ? "disabled" : "";
 }
 
 <section id="hero" class="text-center text-white position-relative shadow-lg">
@@ -98,6 +102,63 @@
 					<partial name="_TraditionDeleteModal" model="item" />
 				}
 			}
+			@* --- НАЧАЛО НА НАВИГАЦИЯТА ЗА СТРАНИЦИТЕ --- *@
+
+			<!-- Бутон "Предишна" -->
+			<a asp-action="Index"
+			   asp-route-pageNumber="@(Model.Traditions.PageIndex - 1)"
+			   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+			   asp-route-pageSize="@Model.FilterQuery.PageSize"
+			   asp-route-searchString="@Model.FilterQuery.SearchString"
+			   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+			   asp-route-dateTo="@Model.FilterQuery.DateTo"
+			   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+			   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+			   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+			   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+			   class="btn btn-outline-primary @prevDisabled">
+				« Предишна
+			</a>
+
+			<!-- Линкове с номерата на страниците -->
+			@for (var i = 1; i <= Model.Traditions.TotalPages; i++)
+			{
+				@*
+				    За всеки номер на страница (от 1 до TotalPages), създаваме линк.
+				    Ако номерът на страницата 'i' съвпада с текущата страница 'Model.PageIndex',
+				    ще му дадем различен CSS клас, за да го откроим визуално.
+				*@
+				<a asp-action="Index"
+				   asp-route-pageNumber="@i"
+				   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+				   asp-route-pageSize="@Model.FilterQuery.PageSize"
+				   asp-route-searchString="@Model.FilterQuery.SearchString"
+				   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+				   asp-route-dateTo="@Model.FilterQuery.DateTo"
+				   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+				   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+				   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+				   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+				   class="btn @(i == Model.Traditions.PageIndex ? "btn-primary" : "btn-outline-primary")">
+					@i
+				</a>
+			}
+
+			<!-- Бутон "Следваща" -->
+			<a asp-action="Index"
+			   asp-route-pageNumber="@(Model.Traditions.PageIndex + 1)"
+			   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+			   asp-route-pageSize="@Model.FilterQuery.PageSize"
+			   asp-route-searchString="@Model.FilterQuery.SearchString"
+			   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+			   asp-route-dateTo="@Model.FilterQuery.DateTo"
+			   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+			   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+			   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+			   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+			   class="btn btn-outline-primary @nextDisabled">
+				Следваща »
+			</a>
 		</section>
 		<section id="filter" class="col-4 text-end">
 			@if (User.IsInRole("Admin"))

@@ -1,10 +1,11 @@
-﻿using BulgarianTraditionsAndCustoms.Models;
+﻿using BulgarianTraditionsAndCustoms.Helpers;
+using BulgarianTraditionsAndCustoms.Models;
 
 namespace BulgarianTraditionsAndCustoms.ViewModels
 {
     public class TraditionIndexViewModel
     {
-        public IEnumerable<Tradition> Traditions { get; set; } = [];
+        public PaginatedList<Tradition> Traditions { get; set; }
         public TraditionFilterQuery FilterQuery { get; set; }
     }
 }
