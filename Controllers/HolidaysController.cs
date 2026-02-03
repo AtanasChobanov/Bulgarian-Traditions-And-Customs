@@ -13,12 +13,10 @@ namespace BulgarianTraditionsAndCustoms.Controllers
     public class HolidaysController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public HolidaysController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public HolidaysController(ApplicationDbContext context)
         {
             _context = context;
-            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index(HolidayFilterQuery query)
@@ -223,14 +221,6 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             _context.SaveChanges();
             TempData["SuccessMessage"] = "Празникът беше успешно изтрит.";
             return RedirectToAction(nameof(Index));
-        }
-
-        private void PopulateDropDowns(TraditionFormViewModel viewModel)
-        {
-            viewModel.Holidays = _context.Holidays.ToList();
-            viewModel.Participants = _context.Participants.ToList();
-            viewModel.Regions = EnumHelper.GetRegionSelectListItems();
-            viewModel.TraditionTypes = EnumHelper.GetTraditionTypeSelectListItems();
         }
     }
 }
