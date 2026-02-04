@@ -1,0 +1,75 @@
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.HolidayFormViewModel;
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<!-- Име -->
+<div class="form-floating mb-4">
+	<input asp-for="Holiday.Name" class="form-control form-control-lg fs-4 fw-bold" placeholder="Име" />
+	<label asp-for="Holiday.Name">Име на празника</label>
+	<span asp-validation-for="Holiday.Name" class="text-danger"></span>
+</div>
+
+<!-- Метаданни -->
+<ul class="d-flex flex-wrap align-items-center gap-4 text-muted mb-4 ps-0 metadata-list">
+	<li>
+		<div class="form-floating">
+			<input asp-for="Holiday.CelebrationDate" type="date" class="form-control" placeholder="Дата" />
+			<label asp-for="Holiday.CelebrationDate">Дата</label>
+			<span asp-validation-for="Holiday.CelebrationDate" class="text-danger"></span>
+		</div>
+	</li>
+</ul>
+
+<!-- Описание -->
+<div class="form-floating mb-4">
+	<textarea asp-for="Holiday.Description"
+			  class="form-control"
+			  style="height: 150px"
+			  placeholder="Описание"></textarea>
+	<label asp-for="Holiday.Description">Описание</label>
+	<span asp-validation-for="Holiday.Description" class="text-danger"></span>
+</div>
+
+<!-- Традиции -->
+@if (Model?.Traditions != null && Model.Traditions.Any())
+{
+	<div class="accordion mb-4" id="relationsAccordion">
+		<div class="accordion-item">
+			<h2 class="accordion-header">
+				<button class="accordion-button" type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#traditionsAccordion">
+					Традиции
+				</button>
+			</h2>
+
+			<div id="traditionsAccordion" class="accordion-collapse collapse show">
+				<div class="accordion-body">
+					@foreach (var t in Model.Traditions)
+					{
+						<div class="border rounded p-3 mb-2">
+							<div class="form-check d-flex align-items-center gap-2">
+								<input type="checkbox"
+									   class="form-check-input tradition-checkbox"
+									   name="SelectedTraditionIds"
+									   value="@t.Id"
+									   checked="@(Model.SelectedTraditionIds.Contains(t.Id))" />
+
+								<strong>@t.Name</strong>
+							</div>
+
+							<small class="text-muted">@t.CelebrationDate.ToString("dd MMMM")</small>
+							<div class="d-flex gap-3 mt-2">
+								@if (!string.IsNullOrEmpty(t.ImagePath))
+								{
+									<img src="@t.ImagePath" style="width:80px;" class="rounded" />
+								}
+								<div>@t.Description</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

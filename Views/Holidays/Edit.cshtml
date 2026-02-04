@@ -1,0 +1,28 @@
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.HolidayFormViewModel
+
+@{
+	ViewData["Title"] = "Edit";
+}
+<div class="container">
+	<h1>Редактиране на празник</h1>
+	<hr />
+	<form asp-action="Edit" enctype="multipart/form-data">
+		<input type="hidden" asp-for="Holiday.Id" />
+
+		<partial name="_HolidayFormPartial" />
+
+		<div class="form-group">
+			<input type="submit" value="Save" class="btn btn-primary" />
+		</div>
+	</form>
+
+	<div>
+		<a asp-action="Index">Back to List</a>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

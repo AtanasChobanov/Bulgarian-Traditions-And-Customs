@@ -1,11 +1,9 @@
 ﻿using BulgarianTraditionsAndCustoms.Data;
-using BulgarianTraditionsAndCustoms.Enums;
 using BulgarianTraditionsAndCustoms.Helpers;
 using BulgarianTraditionsAndCustoms.Models;
 using BulgarianTraditionsAndCustoms.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulgarianTraditionsAndCustoms.Controllers
@@ -78,21 +76,22 @@ namespace BulgarianTraditionsAndCustoms.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new HolidayFormViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create(Holiday holiday)
+        public async Task<IActionResult> Create(HolidayFormViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Holidays.Add(holiday);
+                _context.Holidays.Add(viewModel.Holiday);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(holiday);
+            return View(viewModel);
         }
 
         public IActionResult Details(int id)

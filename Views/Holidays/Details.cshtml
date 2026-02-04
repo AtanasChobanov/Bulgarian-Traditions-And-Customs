@@ -1,0 +1,89 @@
+﻿@model BulgarianTraditionsAndCustoms.Models.Holiday
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<div class="container">
+	<section id="post">
+		<!-- Heading -->
+		<h1 class="mb-3 fw-bold">
+			@Model.Name
+		</h1>
+
+		<!-- Metadata -->
+		<ul class="d-flex flex-wrap align-items-center gap-4 text-muted mb-3 ps-1 metadata-list">
+			<li>
+				@Model.CelebrationDate.ToString("dd MMMM")
+			</li>
+		</ul>
+		<hr />
+
+		<!-- Description -->
+		<div class="fs-5 lh-lg">
+			@Model.Description
+		</div>
+
+		<br />
+		<hr />
+		<br />
+
+		<h4>Традиции</h4>
+
+		@if (Model.Traditions.Any())
+		{
+			<table class="table table-sm">
+				<thead>
+					<tr>
+						<th>Име</th>
+						<th>Описание</th>
+						<th>Дата</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var tradition in Model.Traditions)
+					{
+						<tr>
+							<td>@tradition.Name</td>
+							<td>@tradition.Description</td>
+							<td>@tradition.CelebrationDate</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			<p class="text-muted">Няма свързани традиции</p>
+		}
+
+		<div class="mt-4 d-flex justify-content-between align-items-center">
+
+			<!-- Back to index -->
+			<a asp-action="Index" asp-controller="Holidays" class="btn btn-outline-secondary">
+				<i class="bi bi-arrow-left"></i>
+				Към каталога
+			</a>
+
+			@if (User.IsInRole("Admin"))
+			{
+				<!-- Action buttons -->
+				<div role="group" aria-label="Действия върху празника">
+					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+						<i class="bi bi-pencil-square"></i>
+						Редактиране
+					</a>
+
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
+						<i class="bi bi-trash"></i>
+						Изтриване
+					</button>
+				</div>
+			}
+		</div>
+		@if (User.IsInRole("Admin"))
+		{
+			<partial name="_HolidayDeleteModal" model="Model" />
+		}
+	</section>
+</div>
