@@ -1,7 +1,7 @@
 ﻿using BulgarianTraditionsAndCustoms.Helpers;
-using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 
-namespace BulgarianTraditionsAndCustoms.ViewModels
+namespace BulgarianTraditionsAndCustoms.ViewModels.Traditions
 {
     public class TraditionIndexViewModel
     {

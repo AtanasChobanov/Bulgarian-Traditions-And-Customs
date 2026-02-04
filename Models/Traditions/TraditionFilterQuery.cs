@@ -2,7 +2,7 @@
 using BulgarianTraditionsAndCustoms.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulgarianTraditionsAndCustoms.Models
+namespace BulgarianTraditionsAndCustoms.Models.Traditions
 {
     public class TraditionFilterQuery
     {

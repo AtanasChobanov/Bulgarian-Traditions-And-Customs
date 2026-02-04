@@ -1,4 +1,5 @@
-﻿@model BulgarianTraditionsAndCustoms.ViewModels.ParticipantIndexViewModel
+﻿@using BulgarianTraditionsAndCustoms.ViewModels.Participants
+@model ParticipantIndexViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -53,7 +54,7 @@
 				</div>
 				@if (User.IsInRole("Admin"))
 				{
-					<partial name="_ParticipantDeleteModal" model="item" />
+					<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = item.Id, EntityName = item.Name, DisplayTitle = "участника", Controller = "Participants" }' />
 				}
 			}
 			@* --- НАЧАЛО НА НАВИГАЦИЯТА ЗА СТРАНИЦИТЕ --- *@

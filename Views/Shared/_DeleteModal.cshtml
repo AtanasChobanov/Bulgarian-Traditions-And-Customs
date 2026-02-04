@@ -1,4 +1,4 @@
-﻿@model BulgarianTraditionsAndCustoms.Models.Tradition
+@model BulgarianTraditionsAndCustoms.Models.DeleteModalViewModel
 
 <div class="modal fade" id="deleteModal-@Model.Id" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
@@ -13,8 +13,8 @@
 
 			<div class="modal-body">
 				<p>
-					Сигурни ли сте, че искате да изтриете традицията
-					<strong class="text-danger">@Model.Name</strong>?
+					Сигурни ли сте, че искате да изтриете @Model.DisplayTitle
+					<strong class="text-danger">@Model.EntityName</strong>?
 				</p>
 				<p class="text-muted mb-0">
 					Това действие не може да бъде отменено.
@@ -26,7 +26,7 @@
 					Отказ
 				</button>
 
-				<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+				<form asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-id="@Model.Id" method="post">
 					<button type="submit" class="btn btn-danger">
 						Изтрий
 					</button>

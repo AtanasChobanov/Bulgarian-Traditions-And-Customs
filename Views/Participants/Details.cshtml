@@ -1,4 +1,4 @@
-﻿@model BulgarianTraditionsAndCustoms.Models.Participant
+﻿@model BulgarianTraditionsAndCustoms.Models.Participants.Participant
 
 @{
 	ViewData["Title"] = "Details";
@@ -87,7 +87,7 @@
 		</div>
 		@if (User.IsInRole("Admin"))
 		{
-			<partial name="_ParticipantDeleteModal" model="Model" />
+			<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = Model.Id, EntityName = Model.Name, DisplayTitle = "участника", Controller = "Participants" }' />
 		}
 	</section>
 </div>

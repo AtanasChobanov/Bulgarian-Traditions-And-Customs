@@ -1,7 +1,8 @@
-using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Models.Holidays;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 using System.Collections.Generic;
 
-namespace BulgarianTraditionsAndCustoms.ViewModels
+namespace BulgarianTraditionsAndCustoms.ViewModels.Holidays
 {
     public class HolidayFormViewModel
     {

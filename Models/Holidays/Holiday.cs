@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BulgarianTraditionsAndCustoms.Models.Traditions; // Add this using directive if the Tradition class is in this namespace
 
-namespace BulgarianTraditionsAndCustoms.Models
+namespace BulgarianTraditionsAndCustoms.Models.Holidays
 {
     public class Holiday
     {

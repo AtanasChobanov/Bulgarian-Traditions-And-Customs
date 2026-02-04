@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Models.Participants;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 using BulgarianTraditionsAndCustoms.Validation;
 using Microsoft.AspNetCore.Http;
 
-namespace BulgarianTraditionsAndCustoms.ViewModels
+namespace BulgarianTraditionsAndCustoms.ViewModels.Participants
 {
     public class ParticipantFormViewModel
     {

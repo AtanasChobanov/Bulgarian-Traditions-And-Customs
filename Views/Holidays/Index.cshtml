@@ -1,4 +1,5 @@
-﻿@model BulgarianTraditionsAndCustoms.ViewModels.HolidayIndexViewModel
+﻿@using BulgarianTraditionsAndCustoms.ViewModels.Holidays
+@model HolidayIndexViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -50,7 +51,7 @@
 				</div>
 				@if (User.IsInRole("Admin"))
 				{
-					<partial name="_HolidayDeleteModal" model="item" />
+					<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = item.Id, EntityName = item.Name, DisplayTitle = "празника", Controller = "Holidays" }' />
 				}
 			}
 			@* --- НАЧАЛО НА НАВИГАЦИЯТА ЗА СТРАНИЦИТЕ --- *@

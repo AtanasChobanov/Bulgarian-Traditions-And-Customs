@@ -1,7 +1,9 @@
 ﻿using BulgarianTraditionsAndCustoms.Data;
 using BulgarianTraditionsAndCustoms.Helpers;
-using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Models.Holidays;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 using BulgarianTraditionsAndCustoms.ViewModels;
+using BulgarianTraditionsAndCustoms.ViewModels.Holidays;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

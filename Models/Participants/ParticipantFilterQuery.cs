@@ -1,4 +1,4 @@
-namespace BulgarianTraditionsAndCustoms.Models
+namespace BulgarianTraditionsAndCustoms.Models.Participants
 {
     public class ParticipantFilterQuery
     {

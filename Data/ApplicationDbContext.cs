@@ -1,6 +1,9 @@
 ﻿using BulgarianTraditionsAndCustoms.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
+using BulgarianTraditionsAndCustoms.Models.Holidays;
+using BulgarianTraditionsAndCustoms.Models.Participants;
 
 namespace BulgarianTraditionsAndCustoms.Data
 {

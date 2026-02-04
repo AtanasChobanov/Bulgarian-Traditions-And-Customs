@@ -1,8 +1,10 @@
-﻿using BulgarianTraditionsAndCustoms.Models;
+﻿using BulgarianTraditionsAndCustoms.Models.Holidays;
+using BulgarianTraditionsAndCustoms.Models.Participants;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 using BulgarianTraditionsAndCustoms.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BulgarianTraditionsAndCustoms.ViewModels
+namespace BulgarianTraditionsAndCustoms.ViewModels.Traditions
 {
     public class TraditionFormViewModel
     {

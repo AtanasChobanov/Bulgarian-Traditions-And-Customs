@@ -1,6 +1,7 @@
 ﻿@using BulgarianTraditionsAndCustoms.Enums
 @using BulgarianTraditionsAndCustoms.Helpers
-@model BulgarianTraditionsAndCustoms.ViewModels.TraditionIndexViewModel
+@using BulgarianTraditionsAndCustoms.ViewModels.Traditions
+@model TraditionIndexViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -97,7 +98,7 @@
 				</div>
 				@if (User.IsInRole("Admin"))
 				{
-					<partial name="_TraditionDeleteModal" model="item" />
+					<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = item.Id, EntityName = item.Name, DisplayTitle = "традицията", Controller = "Traditions" }' />
 				}
 			}
 			@* --- НАЧАЛО НА НАВИГАЦИЯТА ЗА СТРАНИЦИТЕ --- *@

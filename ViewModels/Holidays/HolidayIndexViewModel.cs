@@ -1,7 +1,7 @@
 ﻿using BulgarianTraditionsAndCustoms.Helpers;
-using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Models.Holidays;
 
-namespace BulgarianTraditionsAndCustoms.ViewModels
+namespace BulgarianTraditionsAndCustoms.ViewModels.Holidays
 {
     public class HolidayIndexViewModel
     {

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BulgarianTraditionsAndCustoms.Models.Traditions;
 
-namespace BulgarianTraditionsAndCustoms.Models
+namespace BulgarianTraditionsAndCustoms.Models.Participants
 {
     public class TraditionParticipant
     {

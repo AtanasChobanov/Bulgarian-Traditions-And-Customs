@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BulgarianTraditionsAndCustoms.Enums;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using BulgarianTraditionsAndCustoms.Models.Holidays;
+using BulgarianTraditionsAndCustoms.Models.Participants;
 
-namespace BulgarianTraditionsAndCustoms.Models
+namespace BulgarianTraditionsAndCustoms.Models.Traditions
 {
     public class Tradition
     {

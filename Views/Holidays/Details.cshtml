@@ -1,4 +1,4 @@
-﻿@model BulgarianTraditionsAndCustoms.Models.Holiday
+﻿@model BulgarianTraditionsAndCustoms.Models.Holidays.Holiday
 
 @{
 	ViewData["Title"] = "Details";
@@ -83,7 +83,7 @@
 		</div>
 		@if (User.IsInRole("Admin"))
 		{
-			<partial name="_HolidayDeleteModal" model="Model" />
+			<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = Model.Id, EntityName = Model.Name, DisplayTitle = "празника", Controller = "Holidays" }' />
 		}
 	</section>
 </div>
