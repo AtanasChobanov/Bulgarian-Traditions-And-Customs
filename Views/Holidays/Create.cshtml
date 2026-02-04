@@ -7,8 +7,7 @@
 <div class="container">
 	<h1>Създаване на нов празник</h1>
 	<hr />
-    <form asp-action="Create" method="post" enctype="multipart/form-data">
-        @Html.AntiForgeryToken()
+    <form asp-action="Create" enctype="multipart/form-data">
         <partial name="_HolidayFormPartial" />
 
 		<div class="form-group">

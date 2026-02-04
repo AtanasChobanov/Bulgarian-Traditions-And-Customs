@@ -1,16 +1,16 @@
-﻿@model BulgarianTraditionsAndCustoms.ViewModels.TraditionFormViewModel
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.ParticipantFormViewModel
 
 @{
 	ViewData["Title"] = "Edit";
 }
 <div class="container">
-	<h1>Редактиране на традиция</h1>
+	<h1>Редактиране на участник</h1>
 	<hr />
 	<form asp-action="Edit" enctype="multipart/form-data">
-		<input type="hidden" asp-for="Tradition.Id" />
-		<input type="hidden" asp-for="Tradition.ImagePath" />
+		<input type="hidden" asp-for="Participant.Id" />
+		<input type="hidden" asp-for="Participant.ImagePath" />
 
-		<partial name="_TraditionFormPartial" />
+		<partial name="_ParticipantFormPartial" />
 
 		<div class="form-group">
 			<input type="submit" value="Save" class="btn btn-primary" />

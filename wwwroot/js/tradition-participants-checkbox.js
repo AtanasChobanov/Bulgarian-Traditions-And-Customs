@@ -1,6 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
 
-    const checkboxes = document.querySelectorAll(".participant-checkbox");
+    const checkboxes = document.querySelectorAll(".tradition-participant-checkbox");
 
     checkboxes.forEach(cb => {
         const container = cb.closest(".form-check");

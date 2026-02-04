@@ -13,9 +13,8 @@ namespace BulgarianTraditionsAndCustoms.Models
         public string Description { get; set; }
         [MaxLength(200)]
         public string? Role { get; set; }
-        [Url]
         public string? ImagePath { get; set; }
         // Navigation Properties
-        public ICollection<TraditionParticipant> TraditionParticipants { get; set; }
+        public ICollection<TraditionParticipant>? TraditionParticipants { get; set; }
     }
 }

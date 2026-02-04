@@ -1,24 +1,22 @@
-using BulgarianTraditionsAndCustoms.Models;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using BulgarianTraditionsAndCustoms.Models;
+using BulgarianTraditionsAndCustoms.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace BulgarianTraditionsAndCustoms.ViewModels
 {
     public class ParticipantFormViewModel
     {
         public Participant Participant { get; set; } = new Participant();
-
-        // Only traditions related to this participant
-        public ICollection<Tradition> Traditions { get; set; } = new List<Tradition>();
-
-        // IDs of traditions associated with this participant
-        public List<int> SelectedTraditionIds { get; set; } = new();
-
-        // File upload for participant image
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png", ".webp" })]
         public IFormFile? ImageFile { get; set; }
         public bool RemoveImage { get; set; }
 
+        // Only traditions related to this participant
+        public ICollection<Tradition>? Traditions { get; set; }
+        // IDs of traditions associated with this participant
+        public List<int>? SelectedTraditionIds { get; set; } = new();
         // Role of this participant in each related tradition (keyed by TraditionId)
-        public Dictionary<int, string> ParticipantRoles { get; set; } = new();
+        public Dictionary<int, string>? ParticipantRoles { get; set; } = new();
     }
 }

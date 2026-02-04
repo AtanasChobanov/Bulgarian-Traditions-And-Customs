@@ -1,12 +1,14 @@
-﻿@{
-	ViewData["Title"] = "Create";
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.ParticipantFormViewModel
+
+@{
+    ViewData["Title"] = "Create";
 }
 
 <div class="container">
-	<h1>Създаване на нова традиция</h1>
+	<h1>Създаване на нов участник</h1>
 	<hr />
-	<form asp-action="Create" enctype="multipart/form-data">
-		<partial name="_TraditionFormPartial" />
+    <form asp-action="Create" enctype="multipart/form-data">
+		<partial name="_ParticipantFormPartial" />
 
 		<div class="form-group">
 			<input type="submit" value="Create" class="btn btn-primary" />
@@ -24,5 +26,4 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 	<script src="~/js/form-image-upload.js"></script>
-	<script src="~/js/tradition-participants-checkbox.js"></script>
 }
