@@ -1,8 +1,113 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    ViewData["BodyClass"] = "home-page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<section id="hero" class="text-center text-white position-relative shadow-lg">
+
+	<!-- Overlay -->
+	<div class="hero-overlay"></div>
+
+	<!-- Content -->
+	<div class="hero-content px-4 py-5 my-5 position-relative">
+		<h1 class="display-5 fw-bold mb-4">
+			Българските традиции – живото ни наследство
+		</h1>
+
+		<div class="col-lg-6 mx-auto">
+			<p class="lead mb-5">
+				Открий богатството на българските празници, народни обичаи и традиции,
+				свързани с различни региони и периоди от годината.
+			</p>
+
+			<div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+				<a asp-controller="Traditions" asp-action="Index" class="btn btn-red btn-lg px-4">
+					Разгледай каталога
+				</a>
+				<a href="#hero-about-separator" class="btn text-white btn-liquid btn-lg px-4">
+					Научи повече
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Separator -->
+<div id="hero-about-separator" class="text-center py-5">
+	<img src="~/images/separator.png" class="img-separator" alt="Bulgarian Pattern Separator" />
 </div>
+
+<!-- About Section -->
+<section id="about" class="pb-5">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-6 mb-4 mb-lg-0">
+				<h2 class="fw-bold mb-3">За проекта</h2>
+				<p class="lead text-muted mb-4">
+					Виртуална библиотека на българския дух и традиции.
+				</p>
+				<p>
+					Нашият проект има за цел да съхрани и популяризира уникалното културно наследство на България.
+					Тук ще откриете информация за стародавни обичаи, легенди и ритуали, които са се предавали от поколение на поколение.
+					Платформата предлага богат каталог от традиции, свързани с различни краища на страната.
+				</p>
+			</div>
+			<div class="col-lg-6">
+				<div class="p-4 bg-light rounded-3 shadow-sm">
+					<h3 class="h4 mb-3">Цели на проекта</h3>
+					<ul class="list-unstyled mb-0">
+						<li class="mb-2 d-flex align-items-start">
+							<i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+							<span>Съхраняване на българския фолклор и обичаи</span>
+						</li>
+						<li class="mb-2 d-flex align-items-start">
+							<i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+							<span>Образование и достъпност за младото поколение</span>
+						</li>
+						<li class="mb-2 d-flex align-items-start">
+							<i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+							<span>Популяризиране на културния туризъм</span>
+						</li>
+						<li class="d-flex align-items-start">
+							<i class="bi bi-check-circle-fill text-success me-2 mt-1"></i>
+							<span>Създаване на общност от пазители на традициите</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Author Section -->
+<section id="author" class="py-5 bg-light">
+	<!-- Separator -->
+	<div class="text-center p-0 my-4">
+		<img src="~/images/separator.png" class="img-separator" alt="Bulgarian Pattern Separator" />
+	</div>
+
+	<div class="container">
+		<h2 class="fw-bold mb-5 text-center">За автора</h2>
+		<div class="row justify-content-center">
+			<div class="col-lg-10">
+				<div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 2rem;">
+						<div class="row g-0 align-items-center p-4">
+							<div class="col-md-5 text-center mb-4 mb-md-0">
+								<img src="~/images/portrait.jpeg" alt="Atanas Chobanov" class="rounded-circle shadow-sm" style="width: 250px; height: 250px; object-fit: cover; object-position: top;">
+							
+							</div>
+							<div class="col-md-7 ps-md-4 text-center text-md-start">
+							<h3 class="h4 fw-bold mb-1">Атанас Чобанов</h3>
+							<p class="text-danger mb-3">Създател и разработчик</p>
+								<p class="text-muted mb-0">
+									Студент със страст към програмирането и българската история. 
+									Този проект е резултат от желанието ми да съчетая модерните технологии с вековните традиции на нашия народ.
+								</p>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
