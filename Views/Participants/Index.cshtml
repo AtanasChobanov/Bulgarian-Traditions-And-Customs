@@ -113,7 +113,15 @@
 								<div class="col-md-8">
 									<div class="card-body h-100 d-flex flex-column p-4">
 										<div class="d-flex justify-content-between align-items-start mb-2">
-											<h4 class="card-title fw-bold mb-0">@item.Name</h4>
+											<div>
+												<h4 class="card-title fw-bold mb-1">@item.Name</h4>
+												@if (item.TraditionParticipants != null && item.TraditionParticipants.Any())
+												{
+													<span class="badge rounded-pill border border-success text-success px-3 py-2 small fw-normal">
+														<i class="bi bi-link-45deg me-1"></i> @item.TraditionParticipants.Count свързани традиции
+													</span>
+												}
+											</div>
 											@if (User.IsInRole("Admin"))
 											{
 												<div class="dropdown">
@@ -130,8 +138,8 @@
 											@item.Description
 										</p>
 
-										<div class="mt-auto">
-											<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-red rounded-pill px-4 shadow-sm fw-bold">
+										<div class="mt-auto d-flex">
+											<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-red rounded-pill px-4 shadow-sm fw-bold ms-auto">
 												Прочети още
 											</a>
 										</div>

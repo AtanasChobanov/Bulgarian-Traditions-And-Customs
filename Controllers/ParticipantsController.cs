@@ -24,7 +24,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         public async Task<IActionResult> Index(ParticipantFilterQuery query)
         {
-            var participantsQuery = _context.Participants.AsQueryable();
+            var participantsQuery = _context.Participants.Include(p => p.TraditionParticipants).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.SearchString))
             {
