@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-beige: #fdfcf9;
+    --primary-red: #D02F2F;
+    --secondary-green: #2D6A4F;
+    --forest-dark: #1B4332;
+    --glass-white: rgba(255, 255, 255, 0.6);
+}
+
 html {
     font-size: 14px;
 }
@@ -9,7 +19,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem rgba(45, 106, 79, 0.25);
 }
 
 html {
@@ -18,12 +28,23 @@ html {
 }
 
 body {
-  padding-top: 20vh; /* Height of the navbar */
+  font-family: 'Inter', sans-serif;
+  padding-top: 20vh;
   margin-bottom: 60px;
+  background-color: var(--bg-beige);
 }
 
 body.home-page {
     padding-top: 0;
+}
+
+body.traditions-page {
+    padding-top: 20vh;
+}
+
+/* Titles */
+h1, h2, h3, h4, .text-forest {
+    color: var(--forest-dark);
 }
 
 /* Liquid Glass Navbar */
@@ -32,7 +53,7 @@ body.home-page {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px;
     margin: 1.5rem;
     box-shadow: 0 6px 13px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -47,20 +68,36 @@ body.home-page {
 }
 
 .navbar-nav .nav-link:hover {
-    color: #dc3545 !important; /* Red hover to match brand */
+    color: var(--primary-red) !important;
 }
 
 /* Custom Buttons */
 .btn-red {
-    background-color: #dc3545; /* Bootstrap danger red */
+    background-color: var(--primary-red);
     color: white;
     border: none;
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px;
 }
 
 .btn-red:hover {
-    background-color: #bb2d3b;
+    background-color: #A82525;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(208, 47, 47, 0.3);
+}
+
+.btn-green {
+    background-color: var(--secondary-green);
+    color: white;
+    border: none;
+    border-radius: 50px;
+}
+
+.btn-green:hover {
+    background-color: #1F4D39;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(45, 106, 79, 0.3);
 }
 
 .btn-liquid {
@@ -68,7 +105,7 @@ body.home-page {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px;
 }
 
 .btn-liquid:hover {
@@ -78,13 +115,12 @@ body.home-page {
 }
 
 /* --- HERO SECTION --- */
-
 section#hero {
     background-image: url("/images/hero-bg.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 85vh; /* Increased height */
+    min-height: 85vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -102,13 +138,11 @@ section#hero {
     z-index: 2;
 }
 
-/* --- HERO SECTION --- */
-
 /* --- TRADITIONS PAGE --- */
 
 /* Glass Panel (Sidebar) */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--glass-white);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -122,13 +156,13 @@ section#hero {
     border: none;
     border-radius: 1rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    overflow: hidden; /* Ensure image respects radius */
-    height: 100%; /* Full height for grid */
+    overflow: hidden;
+    height: 100%;
 }
 
 .tradition-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
 }
 
 .tradition-card .card-img-top {
@@ -140,16 +174,103 @@ section#hero {
 /* Form Elements override for glass theme */
 .glass-panel .form-control, 
 .glass-panel .form-select {
-    border-radius: 50px; /* Pill inputs */
-    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 50px;
+    border: 1px solid rgba(0,0,0,0.08);
     background-color: rgba(255, 255, 255, 0.8);
 }
 
 .glass-panel .form-control:focus,
 .glass-panel .form-select:focus {
     background-color: #fff;
-    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25); /* Red shadow focus */
-    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(45, 106, 79, 0.15);
+    border-color: var(--secondary-green);
+}
+
+.glass-panel .form-check-input:checked {
+    background-color: var(--secondary-green);
+    border-color: var(--secondary-green);
+}
+
+.btn-red-outline {
+    background: transparent;
+    color: var(--primary-red);
+    border: 1px solid var(--primary-red);
+    border-radius: 50px;
+}
+
+.btn-red-outline:hover {
+    background: var(--primary-red);
+    color: white;
+}
+
+/* UI Refinement: Dropdowns above cards */
+.controls-bar {
+    position: relative;
+    z-index: 1000; /* Ensure this is high enough */
+}
+
+.dropdown-menu {
+    z-index: 1100 !important;
+}
+
+.dropdown-item:active, .dropdown-item.active {
+    background-color: var(--secondary-green) !important;
+    color: white !important;
+}
+
+/* Search Group Pill Styling */
+.input-group.search-pill-group {
+    background: white;
+    border-radius: 50px;
+    border: 1px solid rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.input-group.search-pill-group .input-group-text,
+.input-group.search-pill-group .btn {
+    border-radius: 50px 0 0 50px !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.input-group.search-pill-group .form-control {
+    border-radius: 0 50px 50px 0 !important;
+    border: none !important;
+    background: transparent !important;
+    padding-left: 0.5rem;
+}
+
+/* Utility */
+.bg-green {
+    background-color: var(--secondary-green) !important;
+}
+
+.text-secondary-green {
+    color: var(--secondary-green) !important;
+}
+
+/* Pagination Styling */
+.pagination .page-link {
+    color: var(--forest-dark) !important;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--bg-beige) !important;
+    color: var(--secondary-green) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--secondary-green) !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: transparent !important;
+    opacity: 0.5;
+    border: none;
 }
 
 .metadata-list li:first-child {
