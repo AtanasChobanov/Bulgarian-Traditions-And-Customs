@@ -38,10 +38,6 @@ body.home-page {
     padding-top: 0;
 }
 
-body.traditions-page {
-    padding-top: 20vh;
-}
-
 /* Titles */
 h1, h2, h3, h4, .text-forest {
     color: var(--forest-dark);
