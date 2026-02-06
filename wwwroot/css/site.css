@@ -82,8 +82,6 @@ h1, h2, h3, h4, .text-forest {
 .btn-red:hover {
     background-color: #A82525;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(208, 47, 47, 0.3);
 }
 
 .btn-green {
@@ -96,8 +94,6 @@ h1, h2, h3, h4, .text-forest {
 .btn-green:hover {
     background-color: #1F4D39;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(45, 106, 79, 0.3);
 }
 
 .btn-liquid {
@@ -279,4 +275,27 @@ section#hero {
 
 .img-separator {
     width: 17%
+}
+
+/* Filter Utilities */
+.max-h-200 {
+    max-height: 200px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.02);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--secondary-green);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--forest-dark);
 }

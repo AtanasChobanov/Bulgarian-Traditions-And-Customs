@@ -27,16 +27,16 @@
 		<aside class="col-lg-4 mb-5 mb-lg-0">
 			<div class="glass-panel sticky-top" style="top: 100px; z-index: 10;">
 				<h4 class="fw-bold mb-4"><i class="bi bi-funnel-fill me-2 text-success"></i>Филтри</h4>
-				
+
 				<form asp-controller="Traditions" asp-action="Index" method="get" id="filter">
-					
+
 					<!-- Search -->
 					<div class="mb-4">
 						<label class="form-label fw-bold small text-muted text-uppercase">Търсене</label>
 						<div class="input-group search-pill-group">
 							<button type="submit" class="input-group-text bg-white border-end-0 ps-3">
-                                <i class="bi bi-search text-muted"></i>
-                            </button>
+								<i class="bi bi-search text-muted"></i>
+							</button>
 							<input type="text" name="searchString" value="@Model.FilterQuery.SearchString" class="form-control border-start-0" placeholder="Търси по име..." />
 						</div>
 					</div>
@@ -87,13 +87,63 @@
 						</div>
 					</div>
 
-                    <!-- Hidden Inputs for logic -->
+					<div class="mb-4">
+						<a class="d-flex justify-content-between align-items-center text-decoration-none text-dark mb-2" data-bs-toggle="collapse" href="#collapseHoliday" role="button">
+							<span class="fw-bold small text-uppercase">Празник</span>
+							<i class="bi bi-chevron-down small"></i>
+						</a>
+						<div class="collapse show" id="collapseHoliday">
+							<div class="max-h-200 overflow-auto custom-scrollbar p-1">
+								@foreach (var holiday in ViewBag.Holidays as IEnumerable<SelectListItem>)
+								{
+									<div class="form-check custom-checkbox mb-2">
+										<input class="form-check-input"
+											   type="checkbox"
+											   data-filter="holidayIds"
+											   value="@holiday.Value"
+											   id="holiday_@holiday.Value"
+											   @(Model.FilterQuery.HolidayIds.Contains(int.Parse(holiday.Value)) ? "checked" : "") />
+										<label class="form-check-label" for="holiday_@holiday.Value">
+											@holiday.Text
+										</label>
+									</div>
+								}
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<a class="d-flex justify-content-between align-items-center text-decoration-none text-dark mb-2" data-bs-toggle="collapse" href="#collapseParticipant" role="button">
+							<span class="fw-bold small text-uppercase">Участник</span>
+							<i class="bi bi-chevron-down small"></i>
+						</a>
+						<div class="collapse show" id="collapseParticipant">
+							<div class="max-h-200 overflow-auto custom-scrollbar p-1">
+								@foreach (var participant in ViewBag.Participants as IEnumerable<SelectListItem>)
+								{
+									<div class="form-check custom-checkbox mb-2">
+										<input class="form-check-input"
+											   type="checkbox"
+											   data-filter="participantIds"
+											   value="@participant.Value"
+											   id="participant_@participant.Value"
+											   @(Model.FilterQuery.ParticipantIds.Contains(int.Parse(participant.Value)) ? "checked" : "") />
+										<label class="form-check-label" for="participant_@participant.Value">
+											@participant.Text
+										</label>
+									</div>
+								}
+							</div>
+						</div>
+					</div>
+
+					<!-- Hidden Inputs for logic -->
 					<input type="hidden" name="traditionTypes" id="traditionTypesCsv" />
 					<input type="hidden" name="regions" id="regionsCsv" />
 					<input type="hidden" name="holidayIds" id="holidayIdsCsv" />
 					<input type="hidden" name="participantIds" id="participantIdsCsv" />
-                    
-                    <!-- Other filters hidden for mockup brevity, can be expanded -->
+
+					<!-- Other filters hidden for mockup brevity, can be expanded -->
 
 					<div class="d-grid gap-2 mt-3">
 						<button type="submit" class="btn btn-green rounded-pill py-2 fw-bold shadow-sm">
@@ -109,7 +159,7 @@
 
 		<!-- Main Content (Right Column) -->
 		<main class="col-lg-8">
-			
+
 			<!-- Controls Bar -->
 			<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 p-3 glass-panel rounded-pill py-2 controls-bar">
 				<div class="mb-2 mb-md-0 px-2">
@@ -118,83 +168,187 @@
 						<a asp-action="Create" class="btn btn-green btn-sm rounded-pill"><i class="bi bi-plus-lg me-1"></i> Създай статия</a>
 					}
 				</div>
-                
-                <div class="d-flex gap-3 align-items-center">
-                    <!-- Page Size -->
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-light rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
-                            Покажи: @Model.FilterQuery.PageSize
-                        </button>
-                        <ul class="dropdown-menu shadow border-0">
-                            <li><a class="dropdown-item @(Model.FilterQuery.PageSize == 5 ? "active" : "")" asp-action="Index" asp-route-pageSize="5" asp-route-searchString="@Model.FilterQuery.SearchString">5</a></li>
-                            <li><a class="dropdown-item @(Model.FilterQuery.PageSize == 10 ? "active" : "")" asp-action="Index" asp-route-pageSize="10" asp-route-searchString="@Model.FilterQuery.SearchString">10</a></li>
-                            <li><a class="dropdown-item @(Model.FilterQuery.PageSize == 15 ? "active" : "")" asp-action="Index" asp-route-pageSize="15" asp-route-searchString="@Model.FilterQuery.SearchString">15</a></li>
-                        </ul>
-                    </div>
-    
-                    <!-- Sort -->
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-white border rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-sort-down me-1"></i> Сортиране
-                        </button>
-                        <ul class="dropdown-menu shadow border-0 dropdown-menu-end">
-                            <li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_asc" ? "active" : "")" asp-action="Index" asp-route-sortOrder="name_asc" asp-route-pageSize="@Model.FilterQuery.PageSize">Име (А-Я)</a></li>
-                            <li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_desc" ? "active" : "")" asp-action="Index" asp-route-sortOrder="name_desc" asp-route-pageSize="@Model.FilterQuery.PageSize">Име (Я-А)</a></li>
-                            <li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "upcoming" ? "active" : "")" asp-action="Index" asp-route-sortOrder="upcoming" asp-route-pageSize="@Model.FilterQuery.PageSize">Предстоящи</a></li>
-                        </ul>
-                    </div>
-                </div>
+
+				<div class="d-flex gap-3 align-items-center">
+					<!-- Page Size -->
+					<div class="dropdown">
+						<button class="btn btn-sm btn-light rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
+							Покажи: @Model.FilterQuery.PageSize
+						</button>
+						<ul class="dropdown-menu shadow border-0">
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.PageSize == 5 ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="5"
+								   asp-route-sortOrder="@Model.FilterQuery.SortOrder">5</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.PageSize == 10 ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="10"
+								   asp-route-sortOrder="@Model.FilterQuery.SortOrder">10</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.PageSize == 15 ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="15"
+								   asp-route-sortOrder="@Model.FilterQuery.SortOrder">15</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Sort -->
+					<div class="dropdown">
+						<button class="btn btn-sm btn-white border rounded-pill dropdown-toggle px-3" type="button" data-bs-toggle="dropdown">
+							<i class="bi bi-sort-down me-1"></i> Сортиране
+						</button>
+						<ul class="dropdown-menu shadow border-0 dropdown-menu-end">
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_asc" ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="name_asc">Име (А-Я)</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_desc" ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="name_desc">Име (Я-А)</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.SortOrder == "upcoming" ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="upcoming">Предстоящи</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.SortOrder == "region_asc" ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="region_asc">Регион (А-Я)</a>
+							</li>
+							<li>
+								<a class="dropdown-item @(Model.FilterQuery.SortOrder == "region_desc" ? "active" : "")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="region_desc">Регион (Я-А)</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
-			<!-- Grid -->
+			<!-- Horizontal List Layout -->
 			<div class="row g-4">
 				@foreach (var item in Model.Traditions)
 				{
-					<div class="col-md-6 col-lg-4">
-						<div class="card tradition-card h-100 shadow-sm">
-							<div class="position-relative">
-								@if (item.ImagePath != null)
-								{
-									<img src="@item.ImagePath" class="card-img-top" alt="@item.Name">
-								}
-								else
-								{
-									<div class="card-img-top bg-light d-flex align-items-center justify-content-center text-muted">
-										<i class="bi bi-image fs-1"></i>
+					<div class="col-12">
+						<div class="card tradition-card h-100 shadow-sm border-0">
+							<div class="row g-0">
+								<div class="col-md-4">
+									<div class="position-relative h-100">
+										@if (item.ImagePath != null)
+										{
+											<img src="@item.ImagePath" class="img-fluid rounded-start h-100 w-100" style="object-fit: cover; min-height: 250px;" alt="@item.Name">
+										}
+										else
+										{
+											<div class="bg-light d-flex align-items-center justify-content-center text-muted h-100" style="min-height: 250px;">
+												<i class="bi bi-image fs-1"></i>
+											</div>
+										}
+										<span class="position-absolute top-0 start-0 m-3 badge bg-white text-forest shadow-sm rounded-pill fw-bold border" style="border-color: var(--secondary-green) !important;">
+											@Html.DisplayFor(modelItem => item.TraditionType)
+										</span>
 									</div>
-								}
-								<span class="position-absolute top-0 end-0 m-3 badge bg-white text-forest shadow-sm rounded-pill fw-bold border" style="border-color: var(--secondary-green) !important;">
-									@Html.DisplayFor(modelItem => item.TraditionType)
-								</span>
-							</div>
-							
-							<div class="card-body d-flex flex-column">
-								<h5 class="card-title fw-bold mb-2 text-truncate" title="@item.Name">@item.Name</h5>
-								
-								<div class="mb-3 small text-muted">
-									<div class="mb-1"><i class="bi bi-geo-alt-fill text-danger me-1"></i> @Html.DisplayFor(modelItem => item.Region)</div>
-									<div><i class="bi bi-calendar-event text-secondary-green me-1" style="color: var(--secondary-green);"></i> @item.CelebrationDate</div>
 								</div>
-
-								<p class="card-text small text-secondary mb-4 flex-grow-1 line-clamp-3">
-									@item.Description
-								</p>
-
-								<div class="mt-auto d-flex justify-content-between align-items-center">
-									<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-red btn-sm rounded-pill px-4 shadow-sm fw-bold">
-										Прочети още
-									</a>
-									
-									@if (User.IsInRole("Admin"))
-									{
-										<div class="dropdown">
-											<button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
-											<ul class="dropdown-menu dropdown-menu-end shadow border-0">
-												<li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-2"></i> Редактиране</a></li>
-												<li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id"><i class="bi bi-trash me-2"></i> Изтриване</button></li>
-											</ul>
+								<div class="col-md-8">
+									<div class="card-body h-100 d-flex flex-column p-4">
+										<div class="d-flex justify-content-between align-items-start mb-2">
+											<h4 class="card-title fw-bold mb-0">@item.Name</h4>
+											@if (User.IsInRole("Admin"))
+											{
+												<div class="dropdown">
+													<button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
+													<ul class="dropdown-menu dropdown-menu-end shadow border-0">
+														<li><a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-2"></i> Редактиране</a></li>
+														<li><button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id"><i class="bi bi-trash me-2"></i> Изтриване</button></li>
+													</ul>
+												</div>
+											}
 										</div>
-									}
+
+										<div class="mb-3 small text-muted d-flex gap-3">
+											<div><i class="bi bi-geo-alt-fill text-danger me-1"></i> @Html.DisplayFor(modelItem => item.Region)</div>
+											<div><i class="bi bi-calendar-event text-secondary-green me-1"></i> @item.CelebrationDate</div>
+										</div>
+
+										<p class="card-text text-secondary mb-4 flex-grow-1">
+											@item.Description
+										</p>
+
+										<div class="mt-auto">
+											<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-red rounded-pill px-4 shadow-sm fw-bold">
+												Прочети още
+											</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -211,23 +365,55 @@
 				<nav>
 					<ul class="pagination">
 						<li class="page-item @prevDisabled">
-							<a class="page-link rounded-pill me-2 border-0 shadow-sm" asp-action="Index" asp-route-pageNumber="@(Model.Traditions.PageIndex - 1)" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-sortOrder="@Model.FilterQuery.SortOrder">
+							<a asp-action="Index"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+							   asp-route-pageNumber="@(Model.Traditions.PageIndex - 1)"
+							   class="page-link rounded-pill me-2 border-0 shadow-sm">
 								<i class="bi bi-chevron-left"></i>
 							</a>
 						</li>
-						
+
 						@for (var i = 1; i <= Model.Traditions.TotalPages; i++)
 						{
 							<li class="page-item @(i == Model.Traditions.PageIndex ? "active" : "")">
-								<a class="page-link rounded-pill mx-1 border-0 shadow-sm @(i == Model.Traditions.PageIndex ? "bg-green text-white" : "text-forest")" 
-								   asp-action="Index" asp-route-pageNumber="@i" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-sortOrder="@Model.FilterQuery.SortOrder">
+								<a class="page-link rounded-pill mx-1 border-0 shadow-sm @(i == Model.Traditions.PageIndex ? "bg-green text-white" : "text-forest")"
+								   asp-action="Index"
+								   asp-route-searchString="@Model.FilterQuery.SearchString"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+								   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+								   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+								   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+								   asp-route-pageSize="@Model.FilterQuery.PageSize"
+								   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+								   asp-route-pageNumber="@i">
 									@i
 								</a>
 							</li>
 						}
 
 						<li class="page-item @nextDisabled">
-							<a class="page-link rounded-pill ms-2 border-0 shadow-sm" asp-action="Index" asp-route-pageNumber="@(Model.Traditions.PageIndex + 1)" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-sortOrder="@Model.FilterQuery.SortOrder">
+							<a asp-action="Index"
+							   asp-route-searchString="@Model.FilterQuery.SearchString"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-regions="@(Model.FilterQuery.Regions != null ? string.Join(",", Model.FilterQuery.Regions) : null)"
+							   asp-route-traditionTypes="@(Model.FilterQuery.TraditionTypes != null ? string.Join(",", Model.FilterQuery.TraditionTypes) : null)"
+							   asp-route-holidayIds="@(Model.FilterQuery.HolidayIds != null ? string.Join(",", Model.FilterQuery.HolidayIds) : null)"
+							   asp-route-participantIds="@(Model.FilterQuery.ParticipantIds != null ? string.Join(",", Model.FilterQuery.ParticipantIds) : null)"
+							   asp-route-pageSize="@Model.FilterQuery.PageSize"
+							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
+							   asp-route-pageNumber="@(Model.Traditions.PageIndex + 1)"
+							   class="page-link rounded-pill ms-2 border-0 shadow-sm">
 								<i class="bi bi-chevron-right"></i>
 							</a>
 						</li>
@@ -242,7 +428,7 @@
 @section Scripts {
 	<script>
 		document.querySelector("form#filter").addEventListener("submit", function () {
-            // Updated helper to gather CSVs
+			// Updated helper to gather CSVs
 			const buildCsv = (selector, targetId) => {
 				const values = Array.from(document.querySelectorAll(selector))
 					.filter(cb => cb.checked)
