@@ -23,7 +23,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
         {
             // ===== 1. Основна заявка =====
 
-            var holidaysQuery = _context.Holidays.AsQueryable();
+            var holidaysQuery = _context.Holidays.Include(h => h.Traditions).AsQueryable();
 
             // ===== 2. Търсене =====
 
