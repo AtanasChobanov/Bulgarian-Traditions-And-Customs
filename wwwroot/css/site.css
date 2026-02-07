@@ -694,27 +694,11 @@ section#hero {
 }
 
 .hero-actions-container {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
     z-index: 10;
 }
 
 .hero-content-wrapper {
     position: relative;
-    padding-right: 180px; /* Space for buttons */
-}
-
-@media (max-width: 992px) {
-    .hero-content-wrapper {
-        padding-right: 0;
-    }
-    .hero-actions-container {
-        position: static;
-        margin-top: 1.5rem;
-        display: flex;
-        justify-content: flex-start;
-    }
 }
 
 @media (max-width: 768px) {

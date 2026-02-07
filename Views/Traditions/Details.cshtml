@@ -12,16 +12,31 @@
 	}
 	else
 	{
-		<div class="detail-hero-img" style="background-color: var(--forest-dark);"></div>
+		<div class="detail-hero-img" style="background-color: var(--secondary-green);"></div>
 	}
 	<div class="detail-hero-overlay"></div>
 
 	<div class="floating-meta glass-panel shadow-lg border p-4 p-md-5">
 		<div class="hero-content-wrapper">
 			<div class="overflow-hidden">
-				<span class="badge bg-green text-white px-3 py-2 rounded-pill mb-3 shadow-sm">
-					<i class="bi bi-tag-fill me-1"></i> @Html.DisplayFor(modelItem => Model.TraditionType)
-				</span>
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<span class="badge bg-green text-white px-3 py-2 rounded-pill shadow-sm">
+						<i class="bi bi-tag-fill me-1"></i> @Html.DisplayFor(modelItem => Model.TraditionType)
+					</span>
+
+					@if (User.IsInRole("Admin"))
+					{
+						<div class="hero-actions-container d-flex gap-2">
+							<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-green rounded-pill px-4 py-2 border border-white border-opacity-25 shadow">
+								<i class="bi bi-pencil-square me-2"></i> Редактирай
+							</a>
+							<button type="button" class="btn btn-red rounded-pill px-4 py-2 border border-white border-opacity-25 shadow" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
+								<i class="bi bi-trash me-2"></i> Изтрий
+							</button>
+						</div>
+					}
+				</div>
+
 				<h1 class="fw-bold display-3 text-white mb-3 glass-text-shadow" style="line-height: 1.1;">@Model.Name</h1>
 				<div class="meta-badges">
 					<span class="text-white-50 fs-5 me-4 glass-text-shadow">
@@ -32,18 +47,6 @@
 					</span>
 				</div>
 			</div>
-
-			@if (User.IsInRole("Admin"))
-			{
-				<div class="hero-actions-container d-flex gap-2">
-					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-green rounded-pill px-4 py-2 border border-white border-opacity-25 shadow">
-						<i class="bi bi-pencil-square me-2"></i> Редактирай
-					</a>
-					<button type="button" class="btn btn-red rounded-pill px-4 py-2 border border-white border-opacity-25 shadow" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
-						<i class="bi bi-trash me-2"></i> Изтрий
-					</button>
-				</div>
-			}
 		</div>
 	</div>
 </section>
