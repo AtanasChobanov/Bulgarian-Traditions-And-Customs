@@ -16,18 +16,18 @@
 	}
 	<div class="detail-hero-overlay"></div>
 
-	<div class="floating-meta glass-panel shadow-lg border">
-		<div class="d-flex justify-content-between align-items-start gap-4">
-			<div class="flex-grow-1 overflow-hidden">
-				<span class="badge bg-green text-white px-3 py-2 rounded-pill mb-2">
+	<div class="floating-meta glass-panel shadow-lg border p-4 p-md-5">
+		<div class="hero-content-wrapper">
+			<div class="overflow-hidden">
+				<span class="badge bg-green text-white px-3 py-2 rounded-pill mb-3 shadow-sm">
 					<i class="bi bi-tag-fill me-1"></i> @Html.DisplayFor(modelItem => Model.TraditionType)
 				</span>
-				<h1 class="fw-bold display-4 text-white mb-2" style="text-shadow: 0 4px 15px rgba(0,0,0,0.3); line-height: 1.2;">@Model.Name</h1>
+				<h1 class="fw-bold display-3 text-white mb-3 glass-text-shadow" style="line-height: 1.1;">@Model.Name</h1>
 				<div class="meta-badges">
-					<span class="text-white-50 fs-5 me-4" style="text-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+					<span class="text-white-50 fs-5 me-4 glass-text-shadow">
 						<i class="bi bi-calendar-event me-2 text-white"></i> @Model.CelebrationDate.ToString("dd MMMM")
 					</span>
-					<span class="text-white-50 fs-5" style="text-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+					<span class="text-white-50 fs-5 glass-text-shadow">
 						<i class="bi bi-geo-alt-fill me-2 text-white"></i> @Html.DisplayFor(modelItem => Model.Region)
 					</span>
 				</div>
@@ -35,7 +35,7 @@
 
 			@if (User.IsInRole("Admin"))
 			{
-				<div class="d-flex flex-shrink-0 gap-2 mt-1">
+				<div class="hero-actions-container d-flex gap-2">
 					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-green rounded-pill px-4 py-2 border border-white border-opacity-25 shadow">
 						<i class="bi bi-pencil-square me-2"></i> Редактирай
 					</a>
@@ -91,23 +91,23 @@
 					<h3 class="section-title">
 						<i class="bi bi-people-fill text-success"></i> Типични участници
 					</h3>
-					<div class="relation-grid">
+					<div class="participant-grid">
 						@foreach (var tp in Model.TraditionParticipants)
 						{
-							<a asp-controller="Participants" asp-action="Details" asp-route-id="@tp.ParticipantId" class="detail-relation-card border-4">
+							<a asp-controller="Participants" asp-action="Details" asp-route-id="@tp.ParticipantId" class="modern-participant-card shadow-sm">
 								@if (!string.IsNullOrEmpty(tp.Participant.ImagePath))
 								{
-									<img src="@tp.Participant.ImagePath" alt="@tp.Participant.Name" class="avatar-large" />
+									<img src="@tp.Participant.ImagePath" alt="@tp.Participant.Name" class="modern-participant-img" />
 								}
 								else
 								{
-									<div class="avatar-large bg-light d-flex align-items-center justify-content-center text-forest">
-										<i class="bi bi-person-fill fs-2 text-red"></i>
+									<div class="modern-participant-img bg-light d-flex align-items-center justify-content-center text-forest">
+										<i class="bi bi-person-fill display-4 opacity-25"></i>
 									</div>
 								}
-								<div class="info">
-									<h5>@tp.Participant.Name</h5>
-									<span class="role">@(tp.ParticipantRole ?? tp.Participant.Role ?? "Участник")</span>
+								<div class="modern-participant-overlay">
+									<h5 class="modern-participant-name">@tp.Participant.Name</h5>
+									<span class="modern-participant-role">@(tp.ParticipantRole ?? tp.Participant.Role ?? "Участник")</span>
 								</div>
 							</a>
 						}
@@ -120,7 +120,7 @@
 		<div class="col-lg-4">
 			<div class="detail-glass-card p-4 mb-4 shadow-sm border-5">
 				<h3 class="section-title fs-4 mb-4">
-					<i class="bi bi-card-list text-danger"></i> Детайли
+					<i class="bi bi-info-square-fill text-danger"></i> Детайли
 				</h3>
 				
 				<div class="mb-4">
@@ -137,11 +137,13 @@
 					</p>
 				</div>
 
-				<div class="d-grid">
-					<a asp-action="Index" class="btn btn-green rounded-pill py-3 shadow-sm">
-						<i class="bi bi-collection-fill me-2"></i> Всички традиции
+				<div class="d-grid mt-4">
+					<a asp-action="Index" class="btn btn-green rounded-pill py-3 shadow-sm fw-bold">
+						<i class="bi bi-grid-3x3-gap-fill me-2"></i> Всички традиции
 					</a>
 				</div>
+			</div>
+		</div>
 			</div>
 		</div>
 	</div>
