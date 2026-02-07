@@ -1,27 +1,41 @@
-﻿@{
-    ViewData["Title"] = "Create";
+﻿@model BulgarianTraditionsAndCustoms.ViewModels.Participants.ParticipantFormViewModel
+
+@{
+	ViewData["Title"] = "Създай Участник";
 }
 
-<div class="container">
-	<h1>Създаване на нов участник</h1>
-	<hr />
-    <form asp-action="Create" enctype="multipart/form-data">
-		<partial name="_ParticipantFormPartial" />
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-10">
+			<div class="ps-4 mb-5">
+				<h1 class="fw-bold display-6 mb-0">Нов Участник</h1>
+				<p class="text-muted">Добавете нов участник в традициите и обичаите</p>
+			</div>
 
-		<div class="form-group">
-			<input type="submit" value="Create" class="btn btn-primary" />
+			<form asp-action="Create" enctype="multipart/form-data" id="editorForm">
+				<div class="mb-5 pb-5">
+					<partial name="_ParticipantFormPartial" />
+				</div>
+
+				<!-- Sticky Footer Bar -->
+				<div class="editor-footer glass-panel shadow-lg py-3 px-5 rounded-pill border">
+					<div class="d-flex gap-3 justify-content-end">
+						<button type="submit" class="btn btn-green px-5 py-2 fw-bold rounded-pill">
+							<i class="bi bi-person-plus me-2"></i> Създай Участник
+						</button>
+						<a asp-action="Index" class="btn btn-red-outline px-4 py-2 fw-bold rounded-pill">
+							Отказ
+						</a>
+					</div>
+				</div>
+			</form>
 		</div>
-	</form>
-
-	<div>
-		<a asp-action="Index">Back to List</a>
 	</div>
-
 </div>
 
 @section Scripts {
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
-	<script src="~/js/form-image-upload.js"></script>
+	<script src="~/js/form.js"></script>
 }

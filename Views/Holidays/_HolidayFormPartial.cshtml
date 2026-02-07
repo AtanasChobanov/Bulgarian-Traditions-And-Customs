@@ -2,74 +2,70 @@
 
 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<!-- Име -->
-<div class="form-floating mb-4">
-	<input asp-for="Holiday.Name" class="form-control form-control-lg fs-4 fw-bold" placeholder="Име" />
-	<label asp-for="Holiday.Name">Име на празника</label>
-	<span asp-validation-for="Holiday.Name" class="text-danger"></span>
+<!-- Section 1: Core Information -->
+<div class="glass-form-card">
+	<h4 class="fw-bold mb-4"><i class="bi bi-calendar-event me-2 text-success"></i>Основна информация</h4>
+	
+	<div class="form-floating mb-4">
+		<input asp-for="Holiday.Name" class="form-control border-0 bg-light rounded-3 fw-bold" placeholder="Име" />
+		<label asp-for="Holiday.Name">Име на празника</label>
+		<span asp-validation-for="Holiday.Name" class="text-danger"></span>
+	</div>
+
+	<div class="form-floating">
+		<input asp-for="Holiday.CelebrationDate" type="date" class="form-control border-0 bg-light rounded-3" />
+		<label asp-for="Holiday.CelebrationDate">Дата на празнуване</label>
+		<span asp-validation-for="Holiday.CelebrationDate" class="text-danger"></span>
+	</div>
 </div>
 
-<!-- Метаданни -->
-<ul class="d-flex flex-wrap align-items-center gap-4 text-muted mb-4 ps-0 metadata-list">
-	<li>
-		<div class="form-floating">
-			<input asp-for="Holiday.CelebrationDate" type="date" class="form-control" placeholder="Дата" />
-			<label asp-for="Holiday.CelebrationDate">Дата</label>
-			<span asp-validation-for="Holiday.CelebrationDate" class="text-danger"></span>
-		</div>
-	</li>
-</ul>
-
-<!-- Описание -->
-<div class="form-floating mb-4">
-	<textarea asp-for="Holiday.Description"
-			  class="form-control"
-			  style="height: 150px"
-			  placeholder="Описание"></textarea>
-	<label asp-for="Holiday.Description">Описание</label>
-	<span asp-validation-for="Holiday.Description" class="text-danger"></span>
+<!-- Section 2: Description -->
+<div class="glass-form-card">
+	<h4 class="fw-bold mb-4"><i class="bi bi-text-left me-2 text-success"></i>Описание</h4>
+	<div class="form-floating">
+		<textarea asp-for="Holiday.Description" class="form-control border-0 bg-light rounded-3" style="height: 200px" placeholder="Описание"></textarea>
+		<label asp-for="Holiday.Description">Опишете значението и обичаите на празника...</label>
+		<span asp-validation-for="Holiday.Description" class="text-danger"></span>
+	</div>
 </div>
 
-<!-- Традиции -->
+<!-- Section 3: Related Traditions -->
 @if (Model?.Traditions != null && Model.Traditions.Any())
 {
-	<div class="accordion mb-4" id="relationsAccordion">
-		<div class="accordion-item">
-			<h2 class="accordion-header">
-				<button class="accordion-button" type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#traditionsAccordion">
-					Традиции
-				</button>
-			</h2>
-
-			<div id="traditionsAccordion" class="accordion-collapse collapse show">
-				<div class="accordion-body">
-					@foreach (var t in Model.Traditions)
-					{
-						<div class="border rounded p-3 mb-2">
-							<div class="form-check d-flex align-items-center gap-2">
-								<input type="checkbox"
-									   class="form-check-input tradition-checkbox"
-									   name="SelectedTraditionIds"
-									   value="@t.Id"
-									   checked="@(Model.SelectedTraditionIds.Contains(t.Id))" />
-
-								<strong>@t.Name</strong>
-							</div>
-
-							<small class="text-muted">@t.CelebrationDate.ToString("dd MMMM")</small>
-							<div class="d-flex gap-3 mt-2">
-								@if (!string.IsNullOrEmpty(t.ImagePath))
-								{
-									<img src="@t.ImagePath" style="width:80px;" class="rounded" />
-								}
-								<div>@t.Description</div>
-							</div>
+	<div class="glass-form-card">
+		<h4 class="fw-bold mb-4"><i class="bi bi-journal-check me-2 text-success"></i>Изпълнявани традиции</h4>
+		<p class="text-muted small mb-4">Изберете традициите, които се изпълняват на този празник.</p>
+		<div class="row g-3 overflow-auto custom-scrollbar pe-2" style="max-height: 400px;">
+			@foreach (var t in Model.Traditions)
+			{
+				var isSelected = Model.SelectedTraditionIds.Contains(t.Id);
+				<div class="col-md-6 col-xl-4">
+					<div class="relation-card @(isSelected ? "selected" : "")" data-id="@t.Id">
+						<input type="checkbox" name="SelectedTraditionIds" value="@t.Id" 
+							   class="d-none relation-checkbox" @(isSelected ? "checked" : "") />
+						
+						<div class="avatar">
+							@if (!string.IsNullOrEmpty(t.ImagePath))
+							{
+								<img src="@t.ImagePath" alt="@t.Name" />
+							}
+							else
+							{
+								<i class="bi bi-image text-muted"></i>
+							}
 						</div>
-					}
+
+						<div class="flex-grow-1">
+							<div class="fw-bold small mb-0">@t.Name</div>
+							<div class="text-muted smaller">@t.CelebrationDate.ToString("dd MMMM")</div>
+						</div>
+
+						<div class="check-icon">
+							<i class="bi bi-check-circle-fill text-success @(isSelected ? "" : "d-none")"></i>
+						</div>
+					</div>
 				</div>
-			</div>
+			}
 		</div>
 	</div>
 }
