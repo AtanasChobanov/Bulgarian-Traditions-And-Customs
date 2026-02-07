@@ -1,93 +1,130 @@
 ﻿@model BulgarianTraditionsAndCustoms.Models.Participants.Participant
 
 @{
-	ViewData["Title"] = "Details";
+	ViewData["Title"] = Model.Name;
 }
 
-<div class="container">
-	<section id="post">
-		<!-- Heading -->
-		<h1 class="mb-3 fw-bold">
-			@Model.Name
-		</h1>
-		<hr />
+<!-- Hero Section -->
+<section class="detail-hero">
+	@if (!string.IsNullOrEmpty(Model.ImagePath))
+	{
+		<img src="@Model.ImagePath" alt="@Model.Name" class="detail-hero-img" />
+	}
+	else
+	{
+		<div class="detail-hero-img" style="background-color: var(--secondary-green);"></div>
+	}
+	<div class="detail-hero-overlay"></div>
 
-		<!-- Image -->
-		@if (Model.ImagePath != null)
-		{
-			<div class="mb-4">
-				<img src="@Model.ImagePath"
-					 alt="@Model.Name"
-					 class="img-fluid w-100 rounded"
-					 style="max-height: 60vh; object-fit: cover;">
-			</div>
-		}
+	<div class="floating-meta glass-panel shadow-lg border p-4 p-md-5">
+		<div class="hero-content-wrapper">
+			<div class="overflow-hidden">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<span class="badge bg-green text-white px-3 py-2 rounded-pill shadow-sm">
+						<i class="bi bi-person-badge-fill me-1"></i> @(Model.Role ?? "Участник")
+					</span>
 
-		<!-- Description -->
-		<div class="fs-5 lh-lg">
-			@Model.Description
-		</div>
-
-		<br />
-		<hr />
-		<br />
-
-		<h4>Традиции</h4>
-
-		@if (Model.TraditionParticipants.Any())
-		{
-			<table class="table table-sm">
-				<thead>
-					<tr>
-						<th>Име</th>
-						<th>Роля</th>
-						<th>Описание</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var tp in Model.TraditionParticipants)
+					@if (User.IsInRole("Admin"))
 					{
-						<tr>
-							<td>@tp.Tradition.Name</td>
-							<td>@(tp.ParticipantRole ?? tp.Participant.Role ?? "—")</td>
-							<td>@tp.Tradition.Description</td>
-						</tr>
+						<div class="hero-actions-container d-flex gap-2">
+							<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-green rounded-pill px-4 py-2 border border-white border-opacity-25 shadow">
+								<i class="bi bi-pencil-square me-2"></i> Редактирай
+							</a>
+							<button type="button" class="btn btn-red rounded-pill px-4 py-2 border border-white border-opacity-25 shadow" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
+								<i class="bi bi-trash me-2"></i> Изтрий
+							</button>
+						</div>
 					}
-				</tbody>
-			</table>
-		}
-		else
-		{
-			<p class="text-muted">Няма добавени традиции</p>
-		}
+				</div>
 
-		<div class="mt-4 d-flex justify-content-between align-items-center">
+				<h1 class="fw-bold display-3 text-white mb-3 glass-text-shadow" style="line-height: 1.1;">@Model.Name</h1>
+				<div class="meta-badges">
+					<span class="text-white-50 fs-5 glass-text-shadow">
+						<i class="bi bi-calendar3 me-2 text-white"></i> Участва в @Model.TraditionParticipants.Count традиции
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-			<!-- Back to index -->
-			<a asp-action="Index" asp-controller="Participants" class="btn btn-outline-secondary">
-				<i class="bi bi-arrow-left"></i>
-				Към каталога
-			</a>
+<div class="container pb-5">
+	<div class="row g-4">
+		<!-- Main Content -->
+		<div class="col-lg-8">
+			<div class="detail-glass-card p-5 mb-4 shadow-sm">
+				<h3 class="section-title">
+					<i class="bi bi-info-circle-fill text-success"></i> Биография и Роля
+				</h3>
+				<div class="fs-5 lh-lg text-secondary description-text">
+					@Model.Description
+				</div>
+			</div>
 
-			@if (User.IsInRole("Admin"))
+			<!-- Shared Relations -->
+			@if (Model.TraditionParticipants.Any())
 			{
-				<!-- Action buttons -->
-				<div role="group" aria-label="Действия върху участника">
-					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
-						<i class="bi bi-pencil-square"></i>
-						Редактиране
-					</a>
-
-					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model.Id">
-						<i class="bi bi-trash"></i>
-						Изтриване
-					</button>
+				<div class="detail-glass-card p-5 mb-4 shadow-sm">
+					<h3 class="section-title">
+						<i class="bi bi-journal-bookmark-fill text-success"></i> Свързани традиции
+					</h3>
+					<div class="participant-grid">
+						@foreach (var tp in Model.TraditionParticipants)
+						{
+							<a asp-controller="Traditions" asp-action="Details" asp-route-id="@tp.TraditionId" class="modern-participant-card shadow-sm">
+								@if (!string.IsNullOrEmpty(tp.Tradition.ImagePath))
+								{
+									<img src="@tp.Tradition.ImagePath" alt="@tp.Tradition.Name" class="modern-participant-img" />
+								}
+								else
+								{
+									<div class="modern-participant-img bg-light d-flex align-items-center justify-content-center text-forest">
+										<i class="bi bi-flower1 display-4 opacity-25"></i>
+									</div>
+								}
+								<div class="modern-participant-overlay">
+									<h5 class="modern-participant-name">@tp.Tradition.Name</h5>
+									<span class="modern-participant-role">@(tp.ParticipantRole ?? tp.Participant.Role ?? "Участник")</span>
+								</div>
+							</a>
+						}
+					</div>
 				</div>
 			}
 		</div>
-		@if (User.IsInRole("Admin"))
-		{
-			<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = Model.Id, EntityName = Model.Name, DisplayTitle = "участника", Controller = "Participants" }' />
-		}
-	</section>
+
+		<!-- Sidebar / Quick Actions -->
+		<div class="col-lg-4">
+			<div class="detail-glass-card p-4 mb-4 shadow-sm border-5">
+				<h3 class="section-title fs-4 mb-4">
+					<i class="bi bi-info-square-fill text-danger"></i> Детайли
+				</h3>
+				
+				<div class="mb-4">
+					<label class="text-muted small text-uppercase fw-bold d-block mb-1">Основна роля</label>
+					<p class="text-forest fw-bold mb-0">
+						<i class="bi bi-person-fill me-2 text-danger"></i> @(Model.Role ?? "Общ участник")
+					</p>
+				</div>
+
+				<div class="mb-4">
+					<label class="text-muted small text-uppercase fw-bold d-block mb-1">Брой традиции</label>
+					<p class="text-forest fw-bold mb-0">
+						<i class="bi bi-collection-fill me-2 text-danger"></i> @Model.TraditionParticipants.Count открити връзки
+					</p>
+				</div>
+
+				<div class="d-grid mt-4">
+					<a asp-action="Index" class="btn btn-green rounded-pill py-3 shadow-sm fw-bold">
+						<i class="bi bi-people-fill me-2"></i> Всички участници
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+@if (User.IsInRole("Admin"))
+{
+	<partial name="_DeleteModal" model='new DeleteModalViewModel { Id = Model.Id, EntityName = Model.Name, DisplayTitle = "участника", Controller = "Participants" }' />
+}
