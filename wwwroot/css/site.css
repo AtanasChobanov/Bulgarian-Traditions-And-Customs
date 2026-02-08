@@ -709,3 +709,11 @@ section#hero {
         margin-top: -20vh;
     }
 }
+
+.bg-red-soft {
+    background: rgba(208, 47, 47, 0.1);
+}
+
+.border-red-soft {
+    border: 1px solid rgba(208, 47, 47, 0.1);
+}
