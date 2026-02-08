@@ -23,13 +23,13 @@
 				<div class="navbar-collapse collapse d-sm-inline-flex">
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item">
-							<a class="nav-link fw-bold text-black-50" asp-area="" asp-controller="Traditions" asp-action="Index">Традиции</a>
+							<a class="nav-link" asp-area="" asp-controller="Traditions" asp-action="Index">Традиции</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link fw-bold text-black-50" asp-area="" asp-controller="Holidays" asp-action="Index">Празници</a>
+							<a class="nav-link" asp-area="" asp-controller="Holidays" asp-action="Index">Празници</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link fw-bold text-black-50" asp-area="" asp-controller="Participants" asp-action="Index">Участници</a>
+							<a class="nav-link" asp-area="" asp-controller="Participants" asp-action="Index">Участници</a>
 						</li>
 					</ul>
 					<partial name="_LoginPartial" />
@@ -41,9 +41,58 @@
 		@RenderBody()
 	</main>
 
-	<footer class="border-top footer text-muted">
+	<footer class="site-footer">
 		<div class="container">
-			&copy; 2025 - BulgarianTraditionsAndCustoms - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			<!-- Separator -->
+			<div id="hero-about-separator" class="text-center py-5">
+				<img src="~/images/separator.png" class="img-separator" alt="Bulgarian Pattern Separator" />
+			</div>
+			<div class="row g-4">
+				<!-- Brand Column -->
+				<div class="col-lg-4 mb-4 mb-lg-0">
+					<div class="footer-brand d-flex align-items-center mb-3">
+						<img src="~/images/logo-rеmove-bg.png" alt="Logo" class="me-2" style="height: 50px;" />
+					</div>
+					<p class="footer-tagline">
+						Пазители на българските традиции и обичаи. Съхраняваме духа на предците ни за бъдещите поколения.
+					</p>
+				</div>
+
+				<!-- Links Column -->
+				<div class="col-lg-4 mb-4 mb-lg-0">
+					<h5 class="footer-links-title">Бързи връзки</h5>
+					<div class="row">
+						<div class="col-6">
+							<a class="footer-link" asp-controller="Home" asp-action="Index">Начало</a>
+							<a class="footer-link" asp-controller="Traditions" asp-action="Index">Традиции</a>
+						</div>
+						<div class="col-6">
+							<a class="footer-link" asp-controller="Holidays" asp-action="Index">Празници</a>
+							<a class="footer-link" asp-controller="Participants" asp-action="Index">Участници</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Contact Column -->
+				<div class="col-lg-4">
+					<h5 class="footer-links-title">Контакти</h5>
+					<p class="mb-3">
+						<i class="bi bi-envelope-fill text-danger me-2"></i>
+						<a href="mailto:atanaschobanov2008@gmail.com" class="footer-contact-link">atanaschobanov2008@gmail.com</a>
+					</p>
+					<div class="d-flex mt-3">
+						<a href="#" class="social-icon"><i class="bi bi-facebook text-success"></i></a>
+						<a href="#" class="social-icon"><i class="bi bi-instagram text-success"></i></a>
+						<a href="#" class="social-icon"><i class="bi bi-youtube text-success"></i></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="copyright-section text-center text-muted">
+				<p class="mb-0 text-muted">
+					&copy; @DateTime.Now.Year - ШЕВИЦА - Виртуален каталог на българските традиции
+				</p>
+			</div>
 		</div>
 	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
