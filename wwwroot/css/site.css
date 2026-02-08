@@ -843,3 +843,18 @@ section#hero {
         transform: none;
     }
 }
+
+/* --- NOTIFICATIONS --- */
+.alert-fixed-top-right {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 320px;
+    max-width: 450px;
+}
+
+.alert-fixed-top-right .alert {
+    border-radius: 16px;
+    padding: 1.25rem 3rem 1.25rem 1.5rem;
+}

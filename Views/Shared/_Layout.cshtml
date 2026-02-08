@@ -38,6 +38,31 @@
 		</nav>
 	</header>
 	<main role="main" class="pb-3">
+		@if (TempData["DeleteSuccess"] != null || TempData["DeleteError"] != null)
+		{
+			<div class="alert-fixed-top-right">
+				@if (TempData["DeleteSuccess"] != null)
+				{
+					<div class="alert alert-success alert-dismissible fade show border-0 shadow-lg" role="alert">
+						<div class="d-flex align-items-center">
+							<i class="bi bi-check-circle-fill fs-4 me-2"></i>
+							<div>@TempData["DeleteSuccess"]</div>
+						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="this.parentElement.remove()"></button>
+					</div>
+				}
+				@if (TempData["DeleteError"] != null)
+				{
+					<div class="alert alert-danger alert-dismissible fade show border-0 shadow-lg" role="alert">
+						<div class="d-flex align-items-center">
+							<i class="bi bi-exclamation-octagon-fill fs-4 me-2"></i>
+							<div>@TempData["DeleteError"]</div>
+						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="this.parentElement.remove()"></button>
+					</div>
+				}
+			</div>
+		}
 		@RenderBody()
 	</main>
 

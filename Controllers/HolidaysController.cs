@@ -237,13 +237,13 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             var hasTraditions = _context.Traditions.Any(t => t.Holidays.Any(h => h.Id == id));
             if (hasTraditions)
             {
-                TempData["ErrorMessage"] = "Не може да изтриете този празник, защото има свързани с него традиции!";
+                TempData["DeleteError"] = "Не може да изтриете този празник, защото има свързани с него традиции!";
                 return RedirectToAction(nameof(Index));
             }
 
             _context.Holidays.Remove(holiday);
             _context.SaveChanges();
-            TempData["SuccessMessage"] = "Празникът беше успешно изтрит.";
+            TempData["DeleteSuccess"] = "Празникът беше успешно изтрит.";
             return RedirectToAction(nameof(Index));
         }
     }

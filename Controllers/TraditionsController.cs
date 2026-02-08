@@ -373,6 +373,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 }
                 _context.Traditions.Remove(tradition);
                 _context.SaveChanges();
+                TempData["DeleteSuccess"] = "Традицията беше успешно изтрита.";
                 return RedirectToAction(nameof(Index));
             }
             else

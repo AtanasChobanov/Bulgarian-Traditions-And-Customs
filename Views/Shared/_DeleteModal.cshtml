@@ -22,7 +22,14 @@
 				<div class="glass-panel p-3 mb-4 border-red-soft" style="background: rgba(208, 47, 47, 0.03); border-radius: 1.5rem;">
 					<p class="small text-muted mb-0">
 						<i class="bi bi-info-circle me-2"></i>
-						Това действие е <strong>необратимо</strong> и ще премахне всички свързани данни.
+						@if (Model.Controller == "Holidays" || Model.Controller == "Participants")
+						{
+							<span>Това действие е необратимо. @(Model.Controller == "Holidays" ? "Празникът" : "Участникът") ще бъде премахнат само ако първо бъдат изтрити свързаните с него традиции.</span>
+						}
+						else
+						{
+							<span>Това действие е <strong>необратимо</strong> и ще премахне всички свързани данни.</span>
+						}
 					</p>
 				</div>
 

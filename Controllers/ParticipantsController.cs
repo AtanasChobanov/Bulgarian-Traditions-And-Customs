@@ -253,13 +253,13 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             var hasTraditions = _context.TraditionsParticipants.Any(tp => tp.ParticipantId == id);
             if (hasTraditions)
             {
-                TempData["ErrorMessage"] = "Не може да изтриете този участник, защото има свързани с него традиции!";
+                TempData["DeleteError"] = "Не може да изтриете този участник, защото има свързани с него традиции!";
                 return RedirectToAction(nameof(Index));
             }
 
             _context.Participants.Remove(participant);
             _context.SaveChanges();
-            TempData["SuccessMessage"] = "Участникът беше успешно изтрит.";
+            TempData["DeleteSuccess"] = "Участникът беше успешно изтрит.";
             return RedirectToAction(nameof(Index));
         }
     }
