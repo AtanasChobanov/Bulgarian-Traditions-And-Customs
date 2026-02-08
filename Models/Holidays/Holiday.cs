@@ -11,7 +11,7 @@ namespace BulgarianTraditionsAndCustoms.Models.Holidays
         public string Name { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime CelebrationDate { get; set; }
+        public DateTime? CelebrationDate { get; set; }
         [Required]
         [MaxLength(2000)]
         public string Description { get; set; }

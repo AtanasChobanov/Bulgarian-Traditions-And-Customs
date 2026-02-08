@@ -72,19 +72,42 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
             if (query.DateFrom.HasValue && !query.DateTo.HasValue)
             {
+                var fromMonth = query.DateFrom.Value.Month;
+                var fromDay = query.DateFrom.Value.Day;
                 traditionsQuery = traditionsQuery
-                    .Where(t => t.CelebrationDate.Date == query.DateFrom.Value.Date);
+                    .Where(t => t.CelebrationDate.Value.Month == fromMonth && t.CelebrationDate.Value.Day == fromDay);
             }
             else if (!query.DateFrom.HasValue && query.DateTo.HasValue)
             {
+                var toMonth = query.DateTo.Value.Month;
+                var toDay = query.DateTo.Value.Day;
                 traditionsQuery = traditionsQuery
-                    .Where(t => t.CelebrationDate.Date == query.DateTo.Value.Date);
+                    .Where(t => t.CelebrationDate.Value.Month == toMonth && t.CelebrationDate.Value.Day == toDay);
             }
             else if (query.DateFrom.HasValue && query.DateTo.HasValue)
             {
-                traditionsQuery = traditionsQuery
-                    .Where(t => t.CelebrationDate.Date >= query.DateFrom.Value.Date &&
-                                t.CelebrationDate.Date <= query.DateTo.Value.Date);
+                var fromMonth = query.DateFrom.Value.Month;
+                var fromDay = query.DateFrom.Value.Day;
+                var toMonth = query.DateTo.Value.Month;
+                var toDay = query.DateTo.Value.Day;
+
+                // Create comparable values (e.g., Month * 100 + Day) for range check
+                int fromVal = fromMonth * 100 + fromDay;
+                int toVal = toMonth * 100 + toDay;
+
+                if (fromVal <= toVal)
+                {
+                    traditionsQuery = traditionsQuery
+                        .Where(t => (t.CelebrationDate.Value.Month * 100 + t.CelebrationDate.Value.Day) >= fromVal &&
+                                    (t.CelebrationDate.Value.Month * 100 + t.CelebrationDate.Value.Day) <= toVal);
+                }
+                else
+                {
+                    // Case for range wrapping across year end (e.g., Dec to Jan)
+                    traditionsQuery = traditionsQuery
+                        .Where(t => (t.CelebrationDate.Value.Month * 100 + t.CelebrationDate.Value.Day) >= fromVal ||
+                                    (t.CelebrationDate.Value.Month * 100 + t.CelebrationDate.Value.Day) <= toVal);
+                }
             }
 
             // ===== 6. Сортиране =====
@@ -93,7 +116,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
             {
                 "name_desc" => traditionsQuery.OrderByDescending(t => t.Name),
 
-                "upcoming" => traditionsQuery.OrderBy(t => t.CelebrationDate),
+                "upcoming" => traditionsQuery.OrderBy(t => t.CelebrationDate.Value.Month).ThenBy(t => t.CelebrationDate.Value.Day),
 
                 "region_asc" => traditionsQuery.OrderBy(t => t.Region),
                 "region_desc" => traditionsQuery.OrderByDescending(t => t.Region),

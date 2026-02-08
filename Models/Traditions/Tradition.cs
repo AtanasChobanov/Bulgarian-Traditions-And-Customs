@@ -16,7 +16,7 @@ namespace BulgarianTraditionsAndCustoms.Models.Traditions
         public string Description { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime CelebrationDate { get; set; }
+        public DateTime? CelebrationDate { get; set; }
         public string? ImagePath { get; set; }
         [Required]
         public Region Region { get; set; }

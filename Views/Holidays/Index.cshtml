@@ -41,8 +41,8 @@
 					<div class="mb-4">
 						<label class="form-label fw-bold small text-muted text-uppercase">Период</label>
 						<div class="d-flex gap-2">
-							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom" class="form-control" placeholder="От">
-							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo" class="form-control" placeholder="До">
+							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" class="form-control" placeholder="От">
+							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" class="form-control" placeholder="До">
 						</div>
 					</div>
 
@@ -110,8 +110,8 @@
 							<div class="row g-0 h-100">
 								<div class="col-md-3">
 									<div class="date-ribbon">
-										<div class="day">@item.CelebrationDate.Day</div>
-										<div class="month">@item.CelebrationDate.ToString("MMMM", new System.Globalization.CultureInfo("bg-BG"))</div>
+										<div class="day">@item.CelebrationDate?.Day</div>
+										<div class="month">@item.CelebrationDate?.ToString("MMMM", new System.Globalization.CultureInfo("bg-BG"))</div>
 									</div>
 								</div>
 								<div class="col-md-9">

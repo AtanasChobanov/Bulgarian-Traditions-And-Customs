@@ -15,18 +15,21 @@
 			<div class="form-floating">
 				<input asp-for="Tradition.CelebrationDate" type="date" class="form-control border-0 bg-light rounded-3" />
 				<label asp-for="Tradition.CelebrationDate">Дата</label>
+				<span asp-validation-for="Tradition.CelebrationDate" class="text-danger"></span>
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="form-floating">
 				<select asp-for="Tradition.TraditionType" asp-items="Model.TraditionTypes" class="form-select border-0 bg-light rounded-3"></select>
 				<label asp-for="Tradition.TraditionType">Тип традиция</label>
+				<span asp-validation-for="Tradition.TraditionType" class="text-danger"></span>
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="form-floating">
 				<select asp-for="Tradition.Region" asp-items="Model.Regions" class="form-select border-0 bg-light rounded-3"></select>
 				<label asp-for="Tradition.Region">Регион</label>
+				<span asp-validation-for="Tradition.Region" class="text-danger"></span>
 			</div>
 		</div>
 	</div>
@@ -136,7 +139,7 @@
 
 						<div class="flex-grow-1">
 							<div class="fw-bold small">@h.Name</div>
-							<div class="text-muted smaller">@h.CelebrationDate.ToString("dd MMMM")</div>
+							<div class="text-muted smaller">@h.CelebrationDate?.ToString("dd MMMM")</div>
 						</div>
 
 						<div class="check-icon">

@@ -45,8 +45,8 @@
 					<div class="mb-4">
 						<label class="form-label fw-bold small text-muted text-uppercase">Период</label>
 						<div class="d-flex gap-2">
-							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom" class="form-control" placeholder="От">
-							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo" class="form-control" placeholder="До">
+							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" class="form-control" placeholder="От">
+							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" class="form-control" placeholder="До">
 						</div>
 					</div>
 
@@ -336,7 +336,7 @@
 
 										<div class="mb-3 small text-muted d-flex gap-3">
 											<div><i class="bi bi-geo-alt-fill text-danger me-1"></i> @Html.DisplayFor(modelItem => item.Region)</div>
-											<div><i class="bi bi-calendar-event text-secondary-green me-1"></i> @item.CelebrationDate</div>
+											<div><i class="bi bi-calendar-event text-secondary-green me-1"></i> @item.CelebrationDate?.ToString("dd MMMM")</div>
 										</div>
 
 										<p class="card-text text-secondary mb-4 flex-grow-1">

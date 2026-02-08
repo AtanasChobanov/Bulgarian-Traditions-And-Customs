@@ -78,7 +78,7 @@
 
 						<div class="flex-grow-1">
 							<div class="fw-bold small">@t.Name</div>
-							<div class="text-muted smaller mb-1">@t.CelebrationDate.ToString("dd MMMM")</div>
+							<div class="text-muted smaller mb-1">@t.CelebrationDate?.ToString("dd MMMM")</div>
 							<input type="text" name="ParticipantRoles[@t.Id]" 
 								   class="role-badge-input @(isSelected ? "" : "d-none")" 
 								   placeholder="Роля..." 
