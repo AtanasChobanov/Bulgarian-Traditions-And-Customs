@@ -11,8 +11,6 @@ namespace BulgarianTraditionsAndCustoms.Models.Participants
         [Required(ErrorMessage = "Описанието е задължително.")]
         [MaxLength(2000, ErrorMessage = "Максималната дължина е 2000 символа.")]
         public string Description { get; set; }
-        [MaxLength(200, ErrorMessage = "Максималната дължина е 200 символа.")]
-        public string? Role { get; set; }
         public string? ImagePath { get; set; }
         // Navigation Properties
         public ICollection<TraditionParticipant>? TraditionParticipants { get; set; }

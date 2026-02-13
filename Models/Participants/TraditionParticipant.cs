@@ -7,7 +7,7 @@ namespace BulgarianTraditionsAndCustoms.Models.Participants
     {
         public int TraditionId { get; set; }
         public int ParticipantId { get; set; }
-        [MaxLength(200)]
+        [MaxLength(200, ErrorMessage = "Максималната дължина е 200 символа.")]
         public string? ParticipantRole { get; set; }
         // Navigation Properties
         public Tradition Tradition { get; set; }

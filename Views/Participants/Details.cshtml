@@ -21,7 +21,7 @@
 			<div class="overflow-hidden">
 				<div class="d-flex justify-content-between align-items-center mb-3">
 					<span class="badge bg-green text-white px-3 py-2 rounded-pill shadow-sm">
-						<i class="bi bi-person-badge-fill me-1"></i> @(Model.Role ?? "Участник")
+						<i class="bi bi-person-badge-fill me-1"></i>Участник
 					</span>
 
 					@if (User.IsInRole("Admin"))
@@ -89,7 +89,7 @@
 								}
 								<div class="modern-participant-overlay">
 									<h5 class="modern-participant-name">@tp.Tradition.Name</h5>
-									<span class="modern-participant-role">@(tp.ParticipantRole ?? tp.Participant.Role ?? "Участник")</span>
+									<span class="modern-participant-role">@(tp.ParticipantRole ?? "Участник")</span>
 								</div>
 							</a>
 						}
