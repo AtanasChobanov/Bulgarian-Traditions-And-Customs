@@ -18,7 +18,7 @@ namespace BulgarianTraditionsAndCustoms.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TraditionParticipant>()
-                .HasKey(tp => new {tp.TraditionId, tp.ParticipantId});
+                .HasKey(tp => new { tp.TraditionId, tp.ParticipantId });
             modelBuilder.Entity<TraditionParticipant>()
                 .HasOne(t => t.Tradition)
                 .WithMany(tp => tp.TraditionParticipants)
@@ -33,6 +33,6 @@ namespace BulgarianTraditionsAndCustoms.Data
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<TraditionParticipant> TraditionsParticipants { get; set; }
-        
+
     }
 }

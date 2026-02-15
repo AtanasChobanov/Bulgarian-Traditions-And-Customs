@@ -9,8 +9,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-/wwwroot/images/traditions
-/wwwroot/images/participants
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

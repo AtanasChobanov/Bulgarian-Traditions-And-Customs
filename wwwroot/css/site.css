@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Brygada+1918:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
     --bg-beige: #fdfcf9;
@@ -28,7 +28,7 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     padding-top: 20vh;
     background-color: var(--bg-beige);
 }
@@ -38,7 +38,8 @@ body {
     }
 
 /* Titles */
-h1, h2, h3, h4, .text-forest {
+h1, h2, h3, h4, h5, h6, .text-forest {
+    font-family: 'Brygada 1918', serif;
     color: var(--forest-dark);
 }
 
@@ -162,6 +163,28 @@ section#hero {
 
 .hero-content {
     z-index: 2;
+}
+
+/* Index Pages Hero Banners */
+.index-hero {
+    background-size: cover;
+    background-position: center;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.holidays-hero {
+    background-image: url('/images/holidays-banner.jpg');
+}
+
+.participants-hero {
+    background-image: url('/images/participants-banner.jpg');
+}
+
+.traditions-hero {
+    background-image: url('/images/traditions-banner.webp');
 }
 
 /* --- TRADITIONS PAGE --- */
@@ -325,6 +348,7 @@ section#hero {
     }
 
     .date-ribbon .month {
+        font-family: 'Brygada 1918', serif;
         font-size: 0.9rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -566,6 +590,7 @@ section#hero {
 }
 
     .floating-meta h1 {
+        font-family: 'Brygada 1918', serif;
         font-size: 3.5rem;
         color: white;
         text-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -588,11 +613,11 @@ section#hero {
 }
 
 .section-title {
+    font-family: 'Brygada 1918', serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     gap: 0.75rem;
     color: var(--forest-dark);
 }
@@ -708,6 +733,7 @@ section#hero {
 }
 
 .modern-participant-name {
+    font-family: 'Brygada 1918', serif;
     color: white;
     font-size: 1.25rem;
     font-weight: 700;
@@ -776,6 +802,7 @@ section#hero {
 }
 
 .footer-links-title {
+    font-family: 'Brygada 1918', serif;
     font-weight: 700;
     font-size: 1rem;
     text-transform: uppercase;

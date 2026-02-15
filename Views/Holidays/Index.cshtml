@@ -3,15 +3,19 @@
 
 @{
 	ViewData["Title"] = "Празници";
+	ViewData["BodyClass"] = "home-page";
 	var prevDisabled = !Model.Holidays.HasPreviousPage ? "disabled" : "";
 	var nextDisabled = !Model.Holidays.HasNextPage ? "disabled" : "";
 }
 
-<div class="container traditions-page holidays-page">
-	<!-- Page Header -->
-	<div class="text-center mb-5">
-		<h1 class="fw-bold display-5 mb-3">Български празници</h1>
+<section class="index-hero holidays-hero text-center text-white position-relative shadow-lg mb-5">
+	<div class="hero-overlay"></div>
+	<div class="hero-content position-relative">
+		<h1 class="display-5 fw-bold text-white mb-0">Български празници</h1>
 	</div>
+</section>
+
+<div class="container traditions-page holidays-page">
 
 	<!-- Separator -->
 	<div class="text-center p-0 my-5">
@@ -139,7 +143,7 @@
 										</div>
 
 										<p class="card-text text-secondary mb-4 flex-grow-1">
-											@item.Description
+											@(item.Description != null && item.Description.Length > 140 ? item.Description.Substring(0, 140) + "(...)" : item.Description)
 										</p>
 
 										<div class="mt-auto d-flex">
