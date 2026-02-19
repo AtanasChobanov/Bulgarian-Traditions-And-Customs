@@ -34,30 +34,14 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
             // ===== 3. Филтриране по период =====
 
-            if (query.DateFrom.HasValue && !query.DateTo.HasValue)
+            if (query.DateFrom.HasValue || query.DateTo.HasValue)
             {
-                var fromMonth = query.DateFrom.Value.Month;
-                var fromDay = query.DateFrom.Value.Day;
-                holidaysQuery = holidaysQuery
-                    .Where(h => h.CelebrationDate.Value.Month == fromMonth && h.CelebrationDate.Value.Day == fromDay);
-            }
-            else if (!query.DateFrom.HasValue && query.DateTo.HasValue)
-            {
-                var toMonth = query.DateTo.Value.Month;
-                var toDay = query.DateTo.Value.Day;
-                holidaysQuery = holidaysQuery
-                    .Where(h => h.CelebrationDate.Value.Month == toMonth && h.CelebrationDate.Value.Day == toDay);
-            }
-            else if (query.DateFrom.HasValue && query.DateTo.HasValue)
-            {
-                var fromMonth = query.DateFrom.Value.Month;
-                var fromDay = query.DateFrom.Value.Day;
-                var toMonth = query.DateTo.Value.Month;
-                var toDay = query.DateTo.Value.Day;
-
-                // Create comparable values (e.g., Month * 100 + Day) for range check
-                int fromVal = fromMonth * 100 + fromDay;
-                int toVal = toMonth * 100 + toDay;
+                int fromVal = query.DateFrom.HasValue
+                    ? query.DateFrom.Value.Month * 100 + query.DateFrom.Value.Day
+                    : 101;
+                int toVal = query.DateTo.HasValue
+                    ? query.DateTo.Value.Month * 100 + query.DateTo.Value.Day
+                    : 1231;
 
                 if (fromVal <= toVal)
                 {

@@ -44,7 +44,7 @@
 					<!-- Period -->
 					<div class="mb-4">
 						<label class="form-label fw-bold small text-muted text-uppercase">Период</label>
-						<div class="d-flex gap-2">
+						<div class="date-range-inputs">
 							<input type="date" name="dateFrom" value="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" class="form-control" placeholder="От">
 							<input type="date" name="dateTo" value="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" class="form-control" placeholder="До">
 						</div>
@@ -85,9 +85,9 @@
 							Покажи: @Model.FilterQuery.PageSize
 						</button>
 						<ul class="dropdown-menu shadow border-0">
-							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 5 ? "active" : "")" asp-action="Index" asp-route-pageSize="5" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-sortOrder="@Model.FilterQuery.SortOrder">5</a></li>
-							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 10 ? "active" : "")" asp-action="Index" asp-route-pageSize="10" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-sortOrder="@Model.FilterQuery.SortOrder">10</a></li>
-							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 15 ? "active" : "")" asp-action="Index" asp-route-pageSize="15" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-sortOrder="@Model.FilterQuery.SortOrder">15</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 5 ? "active" : "")" asp-action="Index" asp-route-pageSize="5" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-sortOrder="@Model.FilterQuery.SortOrder">5</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 10 ? "active" : "")" asp-action="Index" asp-route-pageSize="10" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-sortOrder="@Model.FilterQuery.SortOrder">10</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.PageSize == 15 ? "active" : "")" asp-action="Index" asp-route-pageSize="15" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-sortOrder="@Model.FilterQuery.SortOrder">15</a></li>
 						</ul>
 					</div>
 
@@ -97,9 +97,9 @@
 							<i class="bi bi-sort-down me-1"></i> Сортиране
 						</button>
 						<ul class="dropdown-menu shadow border-0 dropdown-menu-end">
-							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_asc" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="name_asc">Име (А-Я)</a></li>
-							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_desc" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="name_desc">Име (Я-А)</a></li>
-							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "upcoming" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom" asp-route-dateTo="@Model.FilterQuery.DateTo" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="upcoming">Предстоящи</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_asc" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="name_asc">Име (А-Я)</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "name_desc" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="name_desc">Име (Я-А)</a></li>
+							<li><a class="dropdown-item @(Model.FilterQuery.SortOrder == "upcoming" ? "active" : "")" asp-action="Index" asp-route-searchString="@Model.FilterQuery.SearchString" asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")" asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")" asp-route-pageSize="@Model.FilterQuery.PageSize" asp-route-sortOrder="upcoming">Предстоящи</a></li>
 						</ul>
 					</div>
 				</div>
@@ -170,8 +170,8 @@
 						<li class="page-item @prevDisabled">
 							<a asp-action="Index"
 							   asp-route-searchString="@Model.FilterQuery.SearchString"
-							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
-							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")"
 							   asp-route-pageSize="@Model.FilterQuery.PageSize"
 							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
 							   asp-route-pageNumber="@(Model.Holidays.PageIndex - 1)"
@@ -186,8 +186,8 @@
 								<a class="page-link rounded-pill mx-1 border-0 shadow-sm @(i == Model.Holidays.PageIndex ? "bg-green text-white" : "text-forest")"
 								   asp-action="Index"
 								   asp-route-searchString="@Model.FilterQuery.SearchString"
-								   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
-								   asp-route-dateTo="@Model.FilterQuery.DateTo"
+								   asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")"
+								   asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")"
 								   asp-route-pageSize="@Model.FilterQuery.PageSize"
 								   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
 								   asp-route-pageNumber="@i">
@@ -199,8 +199,8 @@
 						<li class="page-item @nextDisabled">
 							<a asp-action="Index"
 							   asp-route-searchString="@Model.FilterQuery.SearchString"
-							   asp-route-dateFrom="@Model.FilterQuery.DateFrom"
-							   asp-route-dateTo="@Model.FilterQuery.DateTo"
+							   asp-route-dateFrom="@Model.FilterQuery.DateFrom?.ToString("yyyy-MM-dd")"
+							   asp-route-dateTo="@Model.FilterQuery.DateTo?.ToString("yyyy-MM-dd")"
 							   asp-route-pageSize="@Model.FilterQuery.PageSize"
 							   asp-route-sortOrder="@Model.FilterQuery.SortOrder"
 							   asp-route-pageNumber="@(Model.Holidays.PageIndex + 1)"

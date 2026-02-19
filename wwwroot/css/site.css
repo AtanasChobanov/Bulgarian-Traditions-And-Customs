@@ -60,6 +60,7 @@ h1, h2, h3, h4, h5, h6, .text-forest {
     font-size: 1.1rem;
     font-weight: 500;
     color: white !important;
+    letter-spacing: 0.05em;
     transition: all 0.3s ease;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0px 1px 0 #000, 1px 0px 0 #000, -1px 0px 0 #000, 0px -1px 0 #000;
 }
@@ -250,6 +251,19 @@ section#hero {
     .btn-red-outline:hover {
         background: var(--primary-red);
         color: white;
+    }
+
+/* Date Range Inputs */
+.date-range-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+    .date-range-inputs .form-control {
+        flex: 1 1 auto;
+        min-width: 120px;
+        width: auto;
     }
 
 /* UI Refinement: Dropdowns above cards */
