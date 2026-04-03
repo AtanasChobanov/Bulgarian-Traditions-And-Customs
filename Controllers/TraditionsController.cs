@@ -1,4 +1,4 @@
-﻿using BulgarianTraditionsAndCustoms.Data;
+using BulgarianTraditionsAndCustoms.Data;
 using BulgarianTraditionsAndCustoms.Enums;
 using BulgarianTraditionsAndCustoms.Helpers;
 using BulgarianTraditionsAndCustoms.Models.Holidays;
@@ -26,14 +26,14 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         public async Task<IActionResult> Index(TraditionFilterQuery query)
         {
-            // ===== 1. Данни за dropdown-ите =====
+            // 1. Dropdown data
 
             ViewBag.Regions = Enum.GetValues(typeof(Region)).Cast<Region>();
             ViewBag.TraditionTypes = Enum.GetValues(typeof(TraditionType)).Cast<TraditionType>();
             ViewBag.Holidays = new SelectList(_context.Holidays, "Id", "Name");
             ViewBag.Participants = new SelectList(_context.Participants, "Id", "Name");
 
-            // ===== 2. Основна заявка =====
+            // 2. Main query
 
             var traditionsQuery = _context.Traditions
                 .Include(t => t.Holidays)
@@ -41,7 +41,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                     .ThenInclude(tp => tp.Participant)
                 .AsQueryable();
 
-            // ===== 3. Търсене =====
+            // 3. Search
 
             if (!string.IsNullOrWhiteSpace(query.SearchString))
             {
@@ -49,7 +49,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                     .Where(t => t.Name.Contains(query.SearchString));
             }
 
-            // ===== 4. Филтри =====
+            // 4. Filters
 
             if (query.TraditionTypes?.Any() == true) 
             { 
@@ -68,7 +68,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 traditionsQuery = traditionsQuery.Where(t => t.TraditionParticipants.Any(tp => query.ParticipantIds.Contains(tp.ParticipantId))); 
             }
 
-            // ===== 5. Филтриране по период =====
+            // 5. Filter by period
 
             if (query.DateFrom.HasValue || query.DateTo.HasValue)
             {
@@ -94,7 +94,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 }
             }
 
-            // ===== 6. Сортиране =====
+            // 6. Sorting
 
             traditionsQuery = query.SortOrder switch
             {
@@ -108,7 +108,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 _ => traditionsQuery.OrderBy(t => t.Name)
             };
 
-            // ===== 7. Странициране =====
+            // 7. Pagination
 
             var paginatedTraditions = await PaginatedList<Tradition>.CreateAsync(traditionsQuery, query.PageNumber, query.PageSize);
 
@@ -210,7 +210,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 return NotFound();
             }
 
-            // Създаваме ViewModel, който ще подадем на изгледа
+            // Create ViewModel for the view
             var viewModel = new TraditionFormViewModel
             {
                 Tradition = tradition,

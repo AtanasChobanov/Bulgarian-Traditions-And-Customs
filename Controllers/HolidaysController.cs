@@ -1,4 +1,4 @@
-﻿using BulgarianTraditionsAndCustoms.Data;
+using BulgarianTraditionsAndCustoms.Data;
 using BulgarianTraditionsAndCustoms.Helpers;
 using BulgarianTraditionsAndCustoms.Models.Holidays;
 using BulgarianTraditionsAndCustoms.Models.Traditions;
@@ -21,18 +21,18 @@ namespace BulgarianTraditionsAndCustoms.Controllers
 
         public async Task<IActionResult> Index(HolidayFilterQuery query)
         {
-            // ===== 1. Основна заявка =====
+            // 1. Main query
 
             var holidaysQuery = _context.Holidays.Include(h => h.Traditions).AsQueryable();
 
-            // ===== 2. Търсене =====
+            // 2. Search
 
             if (!string.IsNullOrWhiteSpace(query.SearchString))
             {
                 holidaysQuery = holidaysQuery.Where(h => h.Name.Contains(query.SearchString));
             }
 
-            // ===== 3. Филтриране по период =====
+            // 3. Filter by period
 
             if (query.DateFrom.HasValue || query.DateTo.HasValue)
             {
@@ -58,7 +58,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 }
             }
 
-            // ===== 4. Сортиране =====
+            // 4. Sorting
 
             holidaysQuery = query.SortOrder switch
             {
@@ -67,7 +67,7 @@ namespace BulgarianTraditionsAndCustoms.Controllers
                 _ => holidaysQuery.OrderBy(h => h.Name)
             };
 
-            // ===== 5. Странициране =====
+            // 5. Pagination
 
             var paginatedHolidays = await PaginatedList<Holiday>.CreateAsync(holidaysQuery, query.PageNumber, query.PageSize);
 

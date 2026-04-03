@@ -1,44 +1,38 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulgarianTraditionsAndCustoms.Helpers
 {
     public class PaginatedList<T> : List<T>
     {
-        //Свойства, които съдържат информация за страниците
-        public int PageIndex { get; private set; } // Номер на текущата страница
-        public int TotalPages { get; private set; } // Общ брой страници
+        // Properties containing pagination information
+        public int PageIndex { get; private set; } // Current page number
+        public int TotalPages { get; private set; } // Total pages count
 
-        //Конструктор - той е private, защото никога няма да го викаме директно.
-        //Той се извиква само от нашия CreateAsync метод.
+        // Private constructor called only by the CreateAsync method
         private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
-            //Изчисляваме общия брой страници. 
-            //Ако имаме 11 продукта и 4 на страница, 11 / 4.0 = 2.75. Math.Ceiling го закръгля на 3
+            // Calculate total pages (e.g., 11 items and 4 per page = 3 pages)
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-            //Добавяме елементите за текущата страница към самия списък.
+            // Add the items for the current page to the list
             this.AddRange(items);
         }
 
-        //Помощни свойства, които улесняват изгледа (за бутоните "Предишна"/"Следваща")
+        // Helper properties for "Previous" and "Next" buttons in the navigation
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPages;
 
-        // Фабричен метод "CreateAsync" - ТОВА Е НАЙ-ВАЖНАТА ЧАСТ!
-        // Той е единственият начин да се създаде обект от този клас.
+        // Factory method "CreateAsync" for initializing the list asynchronously
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
-            // Първо, изпълняваме заявка, за да вземем ОБЩИЯ брой на ВСИЧКИ записи (преди страницирането).
-            // Това е нужно за изчисляването на TotalPages.
+            // Count total records for calculation
             var count = await source.CountAsync();
 
-            // Сега прилагаме .Skip() и .Take().
-            // Това е ефективната част - базата данни ще върне само нужните записи.
+            // Fetch only required records using Skip and Take
             var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            // Накрая, създаваме и връщаме новата инстанция на PaginatedList,
-            // като й подаваме извлечените елементи и изчислените данни за страниците.
+            // Return initialized PaginatedList instance
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
     }
